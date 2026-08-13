@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bory">
+<meta name="theme-color" content="#FCFBF9">
+<link rel="apple-touch-icon" href="icon.png">
+<title>Bory — Setup week</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: #FCFBF9; color: #1A1A18;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6;
+  font-weight: 400; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 620px; margin: 0 auto; padding: 40px 22px 80px; }
+
+/* ---- header ---- */
+.mast {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 2.4px;
+  color: #8C8880; margin: 0 0 26px;
+}
+h1 {
+  font-size: 30px; font-weight: 500; letter-spacing: -0.4px;
+  line-height: 1.2; margin: 0 0 14px;
+}
+.opening { color: #1A1A18; margin: 0; max-width: 52ch; }
+.meta {
+  font-size: 13px; color: #8C8880; margin: 18px 0 0;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+.meta b { font-weight: 500; color: #1A1A18; }
+
+details.prep { margin: 26px 0 0; border-top: 1px solid #E6E3DD; }
+details.prep summary {
+  cursor: pointer; list-style: none; padding: 14px 0;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.6px;
+  color: #8C8880;
+}
+details.prep summary::-webkit-details-marker { display: none; }
+details.prep summary::after { content: " +"; color: #B4B0A8; }
+details.prep[open] summary::after { content: " \2212"; }
+details.prep ol { margin: 0 0 20px; padding-left: 20px; color: #1A1A18; }
+details.prep li { margin-bottom: 8px; }
+
+/* ---- tabs ---- */
+nav.tabs {
+  position: sticky; top: 0; z-index: 10; background: #FCFBF9;
+  display: flex; gap: 2px; margin: 30px 0 0;
+  border-bottom: 1px solid #E6E3DD;
+}
+nav.tabs button {
+  flex: 1; appearance: none; background: none; border: 0;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  font-family: inherit; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1.4px; color: #8C8880; cursor: pointer;
+  padding: 15px 2px 12px; min-height: 46px;
+}
+nav.tabs button[aria-selected="true"] {
+  color: #1A1A18; border-bottom-color: #55684F;
+}
+section[role="tabpanel"] { padding-top: 30px; }
+section[hidden] { display: none; }
+
+/* ---- groceries ---- */
+.count {
+  font-size: 12px; color: #8C8880; display: flex;
+  justify-content: space-between; align-items: baseline;
+  padding-bottom: 14px; border-bottom: 1px solid #E6E3DD;
+}
+.count button {
+  appearance: none; background: none; border: 0; padding: 4px 0;
+  font-family: inherit; font-size: 12px; color: #8C8880;
+  cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px; text-decoration-color: #E6E3DD;
+}
+.count button:hover { color: #1A1A18; }
+.sec {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; margin: 32px 0 4px;
+}
+label.row {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 13px 0; border-bottom: 1px solid #E6E3DD; cursor: pointer;
+}
+label.row input {
+  appearance: none; flex: 0 0 auto; width: 19px; height: 19px;
+  margin: 3px 0 0; border: 1.5px solid #B4B0A8; border-radius: 2px;
+  background: transparent; cursor: pointer; position: relative;
+}
+label.row input:checked { background: #55684F; border-color: #55684F; }
+label.row input:checked::after {
+  content: ""; position: absolute; left: 5.5px; top: 1.5px;
+  width: 4px; height: 9px; border: solid #fff;
+  border-width: 0 1.75px 1.75px 0; transform: rotate(45deg);
+}
+.txt { flex: 1 1 auto; min-width: 0; }
+.item { display: block; }
+.amt { display: block; font-size: 13.5px; color: #8C8880; }
+.note { display: block; font-size: 12.5px; color: #B4B0A8; font-style: italic; }
+.price {
+  flex: 0 0 auto; font-size: 13.5px; color: #8C8880;
+  font-variant-numeric: tabular-nums; padding-top: 1px;
+}
+label.row.done .item, label.row.done .amt, label.row.done .price {
+  color: #B4B0A8; text-decoration: line-through;
+  text-decoration-color: #B4B0A8;
+}
+label.row.done .note { opacity: .55; }
+
+.totals { margin-top: 36px; border-top: 1.5px solid #1A1A18; padding-top: 4px; }
+.totals div {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 9px 0; border-bottom: 1px solid #E6E3DD; font-size: 14px;
+}
+.totals div:last-child { border-bottom: 0; font-weight: 500; color: #1A1A18; }
+.totals span:first-child { color: #8C8880; }
+.totals span:last-child { font-variant-numeric: tabular-nums; }
+.totals div:last-child span { color: #1A1A18; }
+
+/* ---- recipes ---- */
+h2 { font-size: 23px; font-weight: 500; letter-spacing: -0.3px; margin: 0 0 8px; line-height: 1.25; }
+.rmeta {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 1.3px;
+  color: #8C8880; margin: 0 0 30px;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+h3 {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; font-weight: 400; margin: 34px 0 2px;
+}
+ul.ing { list-style: none; padding: 0; margin: 0; }
+ul.ing li { padding: 10px 0; border-bottom: 1px solid #E6E3DD; }
+ol.method { padding-left: 22px; margin: 8px 0 0; }
+ol.method li { padding: 7px 0; }
+ol.method li::marker { color: #B4B0A8; font-size: 13px; }
+.notes {
+  margin: 30px 0 0; padding: 18px 0 0; border-top: 1px solid #E6E3DD;
+  font-size: 14px; color: #8C8880;
+}
+.notes b { color: #1A1A18; font-weight: 500; }
+.empty { color: #8C8880; font-style: italic; }
+
+/* ---- footer / archive ---- */
+.foot {
+  margin-top: 60px; padding-top: 16px; border-top: 1px solid #E6E3DD;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+}
+.foot a { color: #8C8880; text-decoration: none; border-bottom: 1px solid #E6E3DD; }
+.foot a:hover { color: #1A1A18; }
+.week { padding: 20px 0; border-bottom: 1px solid #E6E3DD; }
+.week a { font-size: 19px; color: #1A1A18; text-decoration: none; font-weight: 500; }
+.week a:hover { color: #55684F; }
+.week p { margin: 5px 0 0; color: #8C8880; font-size: 14.5px; }
+
+@media (max-width: 480px) {
+  .wrap { padding: 30px 17px 70px; }
+  h1 { font-size: 26px; }
+  nav.tabs button { font-size: 10px; letter-spacing: 1px; }
+  .price { font-size: 13px; }
+}
+</style>
+</head><body data-week="2026-08-10"><div class="wrap">
+
+<p class="mast">Meal prep</p>
+<h1>Setup week</h1>
+<p class="opening">A placeholder, so this address resolves and you can test the checkboxes before the real thing arrives. The first real plan publishes Friday evening. Do not shop from this.</p>
+<p class="meta"><span>Protein <b>—</b></span><span>Fibre <b>—</b></span><span>Till <b>—</b></span><span>Recurring <b>—</b></span></p>
+<details class="prep"><summary>Prep order</summary><ol>
+<li>Prep order appears here — three or four lines on the most efficient sequence, so passive cooking overlaps with active work.</li>
+<li>Total active time gets stated so it can be checked against the 2.5 hour ceiling.</li>
+</ol></details>
+<nav class="tabs" role="tablist">
+<button role="tab" data-tab="groceries" aria-selected="false" aria-controls="panel-groceries">Groceries</button>
+<button role="tab" data-tab="breakfast" aria-selected="false" aria-controls="panel-breakfast">Breakfast</button>
+<button role="tab" data-tab="lunch" aria-selected="false" aria-controls="panel-lunch">Lunch</button>
+<button role="tab" data-tab="dinner" aria-selected="false" aria-controls="panel-dinner">Dinner</button>
+</nav>
+<section role="tabpanel" id="panel-groceries" hidden>
+<div class="count"><span id="count"></span><button id="reset" type="button">Uncheck all</button></div>
+<p class="sec">Produce</p>
+<label class="row"><input type="checkbox" value="produce-tick-this"><span class="txt"><span class="item">Tick this</span><span class="amt">Then reload the page</span><span class="note">The tick should survive</span></span><span class="price">$0.00</span></label>
+<label class="row"><input type="checkbox" value="produce-and-this-one"><span class="txt"><span class="item">And this one</span><span class="amt">Ticks are remembered per week</span><span class="note">A new week starts clean</span></span><span class="price">$0.00</span></label>
+<p class="sec">Staples</p>
+<label class="row"><input type="checkbox" value="staples-uncheck-all"><span class="txt"><span class="item">Uncheck all</span><span class="amt">The button at the top of this tab clears them</span></span><span class="price">$0.00</span></label>
+<div class="totals">
+<div><span>Recipe ingredients — till</span><span>—</span></div>
+<div><span>Recipe ingredients — recurring</span><span>—</span></div>
+<div><span>Standing staples</span><span>—</span></div>
+<div><span>Combined weekly — till</span><span>—</span></div>
+</div>
+</section>
+<section role="tabpanel" id="panel-breakfast" hidden>
+<h2>Breakfast lands here Friday</h2>
+<p class="rmeta"><span>6 servings</span><span>Active time</span><span>27g protein</span><span>8g fibre</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Every quantity in both systems, US first: Rolled oats, 3 cups (270g)</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Method steps are whole sentences that stand alone, because you read them off a phone propped against a bowl.</li>
+</ol>
+<p class="notes">Protein and fibre per serving, six-day storage guidance, and the reheat method go here.</p>
+</section>
+<section role="tabpanel" id="panel-lunch" hidden>
+<p class="empty">No lunch this week.</p>
+</section>
+<section role="tabpanel" id="panel-dinner" hidden>
+<p class="empty">No dinner this week.</p>
+</section>
+<div class="foot"><a href="archive.html">Past weeks</a></div>
+</div><script>
+(function () {
+  var KEY = document.body.dataset.week;
+  var tabs = [].slice.call(document.querySelectorAll('nav.tabs button'));
+  var panels = [].slice.call(document.querySelectorAll('section[role=tabpanel]'));
+
+  var nav = document.querySelector('nav.tabs');
+
+  function show(name, fromClick) {
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-selected', String(t.dataset.tab === name));
+    });
+    panels.forEach(function (p) { p.hidden = p.id !== 'panel-' + name; });
+    if (fromClick) {
+      if (history.replaceState) history.replaceState(null, '', '#' + name);
+      // Park the tab bar at the top rather than jumping to the page top —
+      // otherwise every tab switch means scrolling past the header again.
+      nav.scrollIntoView({ block: 'start' });
+    }
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { show(t.dataset.tab, true); });
+  });
+
+  // --- grocery ticks, remembered per week ---
+  var boxes = [].slice.call(document.querySelectorAll('label.row input'));
+  var counter = document.getElementById('count');
+
+  function store(k, v) {
+    try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); }
+    catch (e) { /* private mode: ticks work, they just don't persist */ }
+  }
+  function load(k) {
+    try { return localStorage.getItem(k); } catch (e) { return null; }
+  }
+  function tally() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    if (counter) {
+      counter.textContent = n + ' of ' + boxes.length +
+        (n === boxes.length && boxes.length ? ' — done' : ' picked up');
+    }
+  }
+  boxes.forEach(function (b) {
+    var k = 'bory:' + KEY + ':' + b.value;
+    if (load(k) === '1') { b.checked = true; }
+    b.closest('label').classList.toggle('done', b.checked);
+    b.addEventListener('change', function () {
+      b.closest('label').classList.toggle('done', b.checked);
+      store(k, b.checked ? '1' : null);
+      tally();
+    });
+  });
+  tally();
+
+  var reset = document.getElementById('reset');
+  if (reset) reset.addEventListener('click', function () {
+    boxes.forEach(function (b) {
+      b.checked = false;
+      b.closest('label').classList.remove('done');
+      store('bory:' + KEY + ':' + b.value, null);
+    });
+    tally();
+  });
+
+  var initial = (location.hash || '').replace('#', '');
+  show(tabs.some(function (t) { return t.dataset.tab === initial; })
+       ? initial : 'groceries', false);
+})();
+</script></body></html>
