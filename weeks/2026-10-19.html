@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bory">
+<meta name="theme-color" content="#FCFBF9">
+<link rel="apple-touch-icon" href="../icon.png">
+<title>Bory — Week of October 19</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: #FCFBF9; color: #1A1A18;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6;
+  font-weight: 400; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 620px; margin: 0 auto; padding: 40px 22px 80px; }
+
+/* ---- header ---- */
+.mast {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 2.4px;
+  color: #8C8880; margin: 0 0 26px;
+}
+h1 {
+  font-size: 30px; font-weight: 500; letter-spacing: -0.4px;
+  line-height: 1.2; margin: 0 0 14px;
+}
+.opening { color: #1A1A18; margin: 0; max-width: 52ch; }
+.meta {
+  font-size: 13px; color: #8C8880; margin: 18px 0 0;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+.meta b { font-weight: 500; color: #1A1A18; }
+
+details.prep { margin: 26px 0 0; border-top: 1px solid #E6E3DD; }
+details.prep summary {
+  cursor: pointer; list-style: none; padding: 14px 0;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.6px;
+  color: #8C8880;
+}
+details.prep summary::-webkit-details-marker { display: none; }
+details.prep summary::after { content: " +"; color: #B4B0A8; }
+details.prep[open] summary::after { content: " \2212"; }
+details.prep ol { margin: 0 0 20px; padding-left: 20px; color: #1A1A18; }
+details.prep li { margin-bottom: 8px; }
+
+/* ---- tabs ---- */
+nav.tabs {
+  position: sticky; top: 0; z-index: 10; background: #FCFBF9;
+  display: flex; gap: 2px; margin: 30px 0 0;
+  border-bottom: 1px solid #E6E3DD;
+}
+nav.tabs button {
+  flex: 1; appearance: none; background: none; border: 0;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  font-family: inherit; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1.4px; color: #8C8880; cursor: pointer;
+  padding: 15px 2px 12px; min-height: 46px;
+}
+nav.tabs button[aria-selected="true"] {
+  color: #1A1A18; border-bottom-color: #55684F;
+}
+section[role="tabpanel"] { padding-top: 30px; }
+section[hidden] { display: none; }
+
+/* ---- groceries ---- */
+.count {
+  font-size: 12px; color: #8C8880; display: flex;
+  justify-content: space-between; align-items: baseline;
+  padding-bottom: 14px; border-bottom: 1px solid #E6E3DD;
+}
+.count button {
+  appearance: none; background: none; border: 0; padding: 4px 0;
+  font-family: inherit; font-size: 12px; color: #8C8880;
+  cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px; text-decoration-color: #E6E3DD;
+}
+.count button:hover { color: #1A1A18; }
+.sec {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; margin: 32px 0 4px;
+}
+label.row {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 13px 0; border-bottom: 1px solid #E6E3DD; cursor: pointer;
+}
+label.row input {
+  appearance: none; flex: 0 0 auto; width: 19px; height: 19px;
+  margin: 3px 0 0; border: 1.5px solid #B4B0A8; border-radius: 2px;
+  background: transparent; cursor: pointer; position: relative;
+}
+label.row input:checked { background: #55684F; border-color: #55684F; }
+label.row input:checked::after {
+  content: ""; position: absolute; left: 5.5px; top: 1.5px;
+  width: 4px; height: 9px; border: solid #fff;
+  border-width: 0 1.75px 1.75px 0; transform: rotate(45deg);
+}
+.txt { flex: 1 1 auto; min-width: 0; }
+.item { display: block; }
+.amt { display: block; font-size: 13.5px; color: #8C8880; }
+.note { display: block; font-size: 12.5px; color: #B4B0A8; font-style: italic; }
+.price {
+  flex: 0 0 auto; font-size: 13.5px; color: #8C8880;
+  font-variant-numeric: tabular-nums; padding-top: 1px;
+}
+label.row.done .item, label.row.done .amt, label.row.done .price {
+  color: #B4B0A8; text-decoration: line-through;
+  text-decoration-color: #B4B0A8;
+}
+label.row.done .note { opacity: .55; }
+
+.totals { margin-top: 36px; border-top: 1.5px solid #1A1A18; padding-top: 4px; }
+.totals div {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 9px 0; border-bottom: 1px solid #E6E3DD; font-size: 14px;
+}
+.totals div:last-child { border-bottom: 0; font-weight: 500; color: #1A1A18; }
+.totals span:first-child { color: #8C8880; }
+.totals span:last-child { font-variant-numeric: tabular-nums; }
+.totals div:last-child span { color: #1A1A18; }
+
+/* ---- recipes ---- */
+h2 { font-size: 23px; font-weight: 500; letter-spacing: -0.3px; margin: 0 0 8px; line-height: 1.25; }
+.rmeta {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 1.3px;
+  color: #8C8880; margin: 0 0 30px;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+h3 {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; font-weight: 400; margin: 34px 0 2px;
+}
+ul.ing { list-style: none; padding: 0; margin: 0; }
+ul.ing li { padding: 10px 0; border-bottom: 1px solid #E6E3DD; }
+ol.method { padding-left: 22px; margin: 8px 0 0; }
+ol.method li { padding: 7px 0; }
+ol.method li::marker { color: #B4B0A8; font-size: 13px; }
+.notes {
+  margin: 30px 0 0; padding: 18px 0 0; border-top: 1px solid #E6E3DD;
+  font-size: 14px; color: #8C8880;
+}
+.notes b { color: #1A1A18; font-weight: 500; }
+.empty { color: #8C8880; font-style: italic; }
+
+/* ---- footer / archive ---- */
+.foot {
+  margin-top: 60px; padding-top: 16px; border-top: 1px solid #E6E3DD;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+}
+.foot a { color: #8C8880; text-decoration: none; border-bottom: 1px solid #E6E3DD; }
+.foot a:hover { color: #1A1A18; }
+.week { padding: 20px 0; border-bottom: 1px solid #E6E3DD; }
+.week a { font-size: 19px; color: #1A1A18; text-decoration: none; font-weight: 500; }
+.week a:hover { color: #55684F; }
+.week p { margin: 5px 0 0; color: #8C8880; font-size: 14.5px; }
+
+@media (max-width: 480px) {
+  .wrap { padding: 30px 17px 70px; }
+  h1 { font-size: 26px; }
+  nav.tabs button { font-size: 10px; letter-spacing: 1px; }
+  .price { font-size: 13px; }
+}
+</style>
+</head><body data-week="2026-10-19"><div class="wrap">
+
+<p class="mast">Meal prep</p>
+<h1>Week of October 19</h1>
+<p class="opening">Apple and cinnamon bircher oats, a huevos rancheros grain bowl and pasta e ceci made in bianco — the first time Pasta e Ceci has been cooked at all. The season is doing most of the work: Gala apples and kale are both at their exact Northeast peak in mid-October, storage onions and garlic are at their autumn best, and the tomatoes are canned on purpose so nothing leans on tired late-season fruit. The three stay well apart — rolled oats, brown rice and ditalini; Greek yogurt, eggs and chickpeas; Swiss, Mexican and Italian — and the dinner is made without tomato specifically so it does not land on the same base as the lunch salsa.</p>
+<p class="meta"><span>Protein <b>149g/day</b></span><span>Fibre <b>41g/day</b></span><span>Till <b>$46.25</b></span><span>Recurring <b>$30.85</b></span></p>
+<details class="prep"><summary>Prep order</summary><ol>
+<li>The night before, put the chickpeas and the black beans to soak in two separate bowls — 600g of chickpeas and 240g of black beans, each under four inches of cold water. That is the only overnight step and nothing else needs doing until prep day.</li>
+<li>Chickpeas into the big pot and black beans into a small one, both on to simmer first thing: the chickpeas want 50 to 60 minutes and the beans 45 to 60, and everything else happens around them. Brown rice into the rice cooker at the same time and then forget about it.</li>
+<li>While the pulses boil, char the poblanos and jalapenos, build the salsa roja and boil the eggs. That is the whole lunch bar the portioning, and it all fits inside the chickpea boil.</li>
+<li>Grate the apples with the lemon, mix the bircher and fill six jars — fifteen minutes, and the only thing competing for your hands is a stirring spoon.</li>
+<li>Last, build the pasta e ceci on the drained chickpeas while the ditalini boils, then portion all three meals. Total active time: about 1h45.</li>
+</ol></details>
+<nav class="tabs" role="tablist">
+<button role="tab" data-tab="groceries" aria-selected="false" aria-controls="panel-groceries">Groceries</button>
+<button role="tab" data-tab="breakfast" aria-selected="false" aria-controls="panel-breakfast">Breakfast</button>
+<button role="tab" data-tab="lunch" aria-selected="false" aria-controls="panel-lunch">Lunch</button>
+<button role="tab" data-tab="dinner" aria-selected="false" aria-controls="panel-dinner">Dinner</button>
+</nav>
+<section role="tabpanel" id="panel-groceries" hidden>
+<div class="count"><span id="count"></span><button id="reset" type="button">Uncheck all</button></div>
+<p class="sec">Produce</p>
+<label class="row"><input type="checkbox" value="produce-gala-apples"><span class="txt"><span class="item">Gala apples</span><span class="amt">1 bag / 3 lb (1.36kg)</span><span class="note">The bircher needs about 1 lb (450g); there is no smaller sensible package. Peak Northeast season.</span></span><span class="price">$3.24</span></label>
+<label class="row"><input type="checkbox" value="produce-lemon"><span class="txt"><span class="item">Lemon</span><span class="amt">1 lemon</span><span class="note">Squeezed over the grated apple so it does not brown.</span></span><span class="price">$0.80</span></label>
+<label class="row"><input type="checkbox" value="produce-poblano-peppers"><span class="txt"><span class="item">Poblano peppers</span><span class="amt">1 bag, about 4 / 16 oz (450g)</span><span class="note">Two go in the salsa; the spares keep.</span></span><span class="price">$3.26</span></label>
+<label class="row"><input type="checkbox" value="produce-jalapenos"><span class="txt"><span class="item">Jalapenos</span><span class="amt">2 / about 0.5 lb (225g)</span><span class="note">Sliced with the seeds in.</span></span><span class="price">$0.98</span></label>
+<label class="row"><input type="checkbox" value="produce-yellow-onions"><span class="txt"><span class="item">Yellow onions</span><span class="amt">2 large / about 1.75 lb (800g)</span><span class="note">Loose, not the 3 lb bag. One for the salsa, one for the pasta.</span></span><span class="price">$1.76</span></label>
+<label class="row"><input type="checkbox" value="produce-garlic"><span class="txt"><span class="item">Garlic</span><span class="amt">1 head</span><span class="note">Covers both the salsa and the pasta.</span></span><span class="price">$0.90</span></label>
+<label class="row"><input type="checkbox" value="produce-kale-fresh-green"><span class="txt"><span class="item">Kale, fresh green</span><span class="amt">1 bunch / about 0.5 lb (225g)</span><span class="note">Added to the pasta e ceci — the week&#x27;s leafy green, and at Northeast peak.</span></span><span class="price">$1.48</span></label>
+<label class="row"><input type="checkbox" value="produce-cilantro"><span class="txt"><span class="item">Cilantro</span><span class="amt">1 bunch</span><span class="note">The week&#x27;s one soft herb. Stand it in a glass of water in the fridge.</span></span><span class="price">$1.00</span></label>
+<p class="sec">Pantry</p>
+<label class="row"><input type="checkbox" value="pantry-rolled-oats-old-fashioned"><span class="txt"><span class="item">Rolled oats, old fashioned</span><span class="amt">1 tub / 42 oz (1.19kg)</span><span class="note">Check pantry — the tub bought for Oct 12 should have about 890g left against the 300g this week needs. Priced in the till anyway.</span></span><span class="price">$4.18</span></label>
+<label class="row"><input type="checkbox" value="pantry-brown-sugar-light"><span class="txt"><span class="item">Brown sugar, light</span><span class="amt">1 bag / 32 oz (907g)</span><span class="note">Check pantry — bought the week of Oct 12. Sweetens the oats, and cheaper than honey.</span></span><span class="price">$1.98</span></label>
+<label class="row"><input type="checkbox" value="pantry-brown-rice"><span class="txt"><span class="item">Brown rice</span><span class="amt">1 bag / 2 lb (907g)</span><span class="note">Check pantry — bought Oct 5, about 600g left against the 300g needed.</span></span><span class="price">$2.50</span></label>
+<label class="row"><input type="checkbox" value="pantry-black-beans-dried"><span class="txt"><span class="item">Black beans, dried</span><span class="amt">1 bag / 1 lb (454g)</span><span class="note">Half the bag at 40g dry a serving; the rest keeps indefinitely.</span></span><span class="price">$1.50</span></label>
+<label class="row"><input type="checkbox" value="pantry-chickpeas-dried"><span class="txt"><span class="item">Chickpeas, dried</span><span class="amt">2 bags / 2 lb (907g)</span><span class="note">600g used at 100g dry a serving. Overnight soak, then a 50 to 60 minute boil.</span></span><span class="price">$3.60</span></label>
+<label class="row"><input type="checkbox" value="pantry-ditalini-great-value"><span class="txt"><span class="item">Ditalini, Great Value</span><span class="amt">1 box / 16 oz (454g)</span><span class="note">Newly priced this week — a store brand does exist, at 8.5 cents an ounce.</span></span><span class="price">$1.36</span></label>
+<label class="row"><input type="checkbox" value="pantry-crushed-tomatoes"><span class="txt"><span class="item">Crushed tomatoes</span><span class="amt">2 cans / 15 oz (425g) each</span><span class="note">For the salsa roja. A cooked sauce, so canned beats ten romas at $2.90 and holds six days better.</span></span><span class="price">$2.40</span></label>
+<label class="row"><input type="checkbox" value="pantry-vegetable-oil"><span class="txt"><span class="item">Vegetable oil</span><span class="amt">1 bottle / 48 fl oz (1.42L)</span><span class="note">A genuine buy this week — the August bottle should be down to its last 130ml.</span></span><span class="price">$3.74</span></label>
+<p class="sec">Dairy</p>
+<label class="row"><input type="checkbox" value="dairy-greek-yogurt-plain"><span class="txt"><span class="item">Greek yogurt, plain</span><span class="amt">1 tub / 32 oz (907g)</span><span class="note">Into the oats at 120g a serving. The second tub is under Staples for the dinner yogurt.</span></span><span class="price">$3.28</span></label>
+<label class="row"><input type="checkbox" value="dairy-eggs-large"><span class="txt"><span class="item">Eggs, large</span><span class="amt">1 carton / 18 count</span><span class="note">Three a serving. Boiled in the shell and peeled at serving.</span></span><span class="price">$2.17</span></label>
+<label class="row"><input type="checkbox" value="dairy-parmesan-grated"><span class="txt"><span class="item">Parmesan, grated</span><span class="amt">1 shaker / 8 oz (227g)</span><span class="note">The only cheese on the list — $3.12 against the $8 cap.</span></span><span class="price">$3.12</span></label>
+<p class="sec">Spices</p>
+<label class="row"><input type="checkbox" value="spices-dried-rosemary"><span class="txt"><span class="item">Dried rosemary</span><span class="amt">1 jar / about 0.8 oz (23g)</span><span class="note">The week&#x27;s one new spice, charged at the flat $3.00. Great Value conventional 0.8 oz is listed from $2.52; the firm organic fallback is $4.36.</span></span><span class="price">$3.00</span></label>
+<p class="sec">Staples</p>
+<label class="row"><input type="checkbox" value="staples-bananas"><span class="txt"><span class="item">Bananas</span><span class="amt">1 bunch / about 6</span></span><span class="price">$1.50</span></label>
+<label class="row"><input type="checkbox" value="staples-bagels"><span class="txt"><span class="item">Bagels</span><span class="amt">1 pack / 6 count</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="staples-cream-cheese"><span class="txt"><span class="item">Cream cheese</span><span class="amt">1 tub / 8 oz (227g)</span></span><span class="price">$2.50</span></label>
+<label class="row"><input type="checkbox" value="staples-pineapple-juice"><span class="txt"><span class="item">Pineapple juice</span><span class="amt">1 bottle / 46 fl oz (1.36L)</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="staples-cranberry-juice"><span class="txt"><span class="item">Cranberry juice</span><span class="amt">1 bottle / 64 fl oz (1.89L)</span></span><span class="price">$3.50</span></label>
+<label class="row"><input type="checkbox" value="staples-greek-yogurt-plain-second-tub"><span class="txt"><span class="item">Greek yogurt, plain — second tub</span><span class="amt">1 tub / 32 oz (907g)</span><span class="note">The daily 180g with dinner. Two tubs is 1814g against the 1800g needed — exact, do not cut to one.</span></span><span class="price">$3.28</span></label>
+<div class="totals">
+<div><span>Recipe ingredients — till</span><span>$46.25</span></div>
+<div><span>Recipe ingredients — recurring</span><span>$30.85</span></div>
+<div><span>Standing staples</span><span>$16.78</span></div>
+<div><span>Combined weekly — till</span><span>$63.03</span></div>
+</div>
+</section>
+<section role="tabpanel" id="panel-breakfast" hidden>
+<h2>Apple and Cinnamon Bircher Oats</h2>
+<p class="rmeta"><span>6 servings</span><span>15 min active</span><span>29g protein</span><span>8g fibre</span><span>Swiss</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Rolled oats, 1 3/4 cups (300g)</li>
+<li>Plain Greek yogurt, 3 cups (720g)</li>
+<li>Protein powder, 3 scoops (90g) — from the bulk tub, not on the grocery list</li>
+<li>Water, 2 cups (480ml)</li>
+<li>Gala apples, 2 large / about 1 lb (450g)</li>
+<li>Lemon, 1</li>
+<li>Light brown sugar, 3 tbsp (40g)</li>
+<li>Ground cinnamon, 2 tsp</li>
+<li>Salt, 1/4 tsp</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Whisk the protein powder into the water in a jug until it is completely smooth, before it meets any yogurt — powder stirred straight into yogurt clumps and never recovers.</li>
+<li>Stir in the oats, Greek yogurt, cinnamon, brown sugar and salt and mix to a thick, spoonable batter.</li>
+<li>Grate the apples coarsely with the skin on and toss them immediately with the juice of the whole lemon, so they do not brown over the week.</li>
+<li>Fold the grated apple through the oat mixture.</li>
+<li>Divide between six jars or tubs, about 280g each, seal them and refrigerate overnight before the first one is eaten.</li>
+</ol>
+<p class="notes">29g protein and about 8g fibre a serving. Holds 6 days in the fridge and is eaten cold straight from the jar, so there is no reheating and no day-of step. The lemon is what keeps the apple pale — grated apple without it is brown by day two. The oats thicken as they sit, so loosen a jar with a splash of water if day five is too stiff.</p>
+</section>
+<section role="tabpanel" id="panel-lunch" hidden>
+<h2>Huevos Rancheros Grain Bowl</h2>
+<p class="rmeta"><span>6 servings</span><span>35 min active</span><span>31g protein</span><span>12g fibre</span><span>Mexican</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Black beans, dried, 1 1/4 cups (240g), soaked overnight</li>
+<li>Brown rice, 1 1/2 cups (300g)</li>
+<li>Eggs, large, 18</li>
+<li>Crushed tomatoes, 2 cans / 15 oz (425g) each</li>
+<li>Poblano peppers, 2</li>
+<li>Jalapenos, 2</li>
+<li>Yellow onion, 1 large</li>
+<li>Garlic, 4 cloves</li>
+<li>Vegetable oil, 3 tbsp (45ml)</li>
+<li>Ground cumin, 2 tsp</li>
+<li>Smoked paprika, 2 tsp</li>
+<li>Chili powder, 1 1/2 tsp</li>
+<li>Cayenne, 1 1/2 tsp</li>
+<li>Salt, 1 1/2 tsp</li>
+<li>Cilantro, 1/2 bunch</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Drain the soaked black beans, cover them with fresh water in a small pot and simmer for 45 to 60 minutes until tender, then salt them and drain.</li>
+<li>Put the brown rice in the rice cooker with 3 1/4 cups (780ml) of water and start it — it will be done long before anything else needs the stove.</li>
+<li>Char the poblanos and jalapenos whole, directly over a gas flame or under the broiler, turning them until the skins blister and blacken all over, then let them steam in a covered bowl for ten minutes and rub the skins off.</li>
+<li>Soften the diced onion in the oil over a medium heat for about eight minutes, then add the garlic, cumin, smoked paprika, chili powder and cayenne and fry for a minute until the spices smell toasted.</li>
+<li>Chop the charred chilies, seeds and all, and add them with both cans of crushed tomatoes and the salt; simmer the salsa roja for 20 minutes until it is thick enough to hold a spoon-track.</li>
+<li>Boil the eggs in their shells for nine minutes, cool them under cold running water and store them unpeeled.</li>
+<li>Portion the rice, beans and salsa into six containers, with the chopped cilantro stirred through the salsa and the eggs kept in a separate box.</li>
+</ol>
+<p class="notes">31g protein and about 12g fibre a serving, with the eggs carrying 19g of the protein on their own. Holds 6 days; rice, beans and salsa microwave together in 2 minutes. One day-of step, about thirty seconds: peel three eggs and halve them over the hot bowl. They go in whole because peeled eggs only keep about four days. Two jalapenos with the seeds in plus 1 1/2 tsp of cayenne makes this properly hot and it will climb as the week goes on.</p>
+</section>
+<section role="tabpanel" id="panel-dinner" hidden>
+<h2>Pasta e Ceci in Bianco</h2>
+<p class="rmeta"><span>6 servings</span><span>40 min active</span><span>30g protein</span><span>21g fibre</span><span>Italian</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Chickpeas, dried, 3 cups (600g), soaked overnight</li>
+<li>Ditalini, 1 1/2 cups (240g)</li>
+<li>Parmesan, grated, 1 cup (90g)</li>
+<li>Kale, 1 bunch / about 0.5 lb (225g)</li>
+<li>Yellow onion, 1 large</li>
+<li>Garlic, 6 cloves</li>
+<li>Dried rosemary, 2 tsp</li>
+<li>Red pepper flakes, 2 tsp</li>
+<li>Cayenne, 1/2 tsp</li>
+<li>Vegetable oil, 5 tbsp (75ml)</li>
+<li>Salt, 2 tsp</li>
+<li>Black pepper, to taste</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Drain the soaked chickpeas, cover them generously with fresh water and simmer for 50 to 60 minutes until one crushes easily against the side of the pot, then salt them and keep 3 cups (720ml) of the cooking water.</li>
+<li>Warm the oil in a wide pan over a medium-low heat and fry the sliced onion gently for ten minutes, until it is soft and sweet rather than browned.</li>
+<li>Add the garlic, rosemary, red pepper flakes and cayenne and fry for a minute, pressing the rosemary into the hot oil so it gives up its resin.</li>
+<li>Tip in two-thirds of the chickpeas with the reserved cooking water, then crush the remaining third roughly with a fork or the back of a spoon and stir them in — the broken ones are what make the sauce creamy without any cream or a blender.</li>
+<li>Strip the kale leaves from their stems, shred them and simmer them in the pot for eight minutes until they are tender and dark.</li>
+<li>Cook the ditalini in salted water for a minute less than the box says, drain it and stir it into the chickpeas with the salt and plenty of black pepper.</li>
+<li>Take the pan off the heat, stir in the parmesan, and portion into six containers once it has stopped steaming.</li>
+</ol>
+<p class="notes">30g protein and about 21g fibre a serving. Holds 6 days. Microwave 3 minutes covered, with a splash of water stirred through first — the pasta drinks the sauce as it sits and goes claggy without it. Made in bianco, with no tomato, so the dinner does not land on the same tomato base as the lunch salsa. 2 tsp of red pepper flakes fried into the oil plus 1/2 tsp of cayenne builds real heat that will climb over the six days; the Greek yogurt eaten alongside is the brake.</p>
+</section>
+<div class="foot"><a href="../archive.html">Past weeks</a></div>
+</div><script>
+(function () {
+  var KEY = document.body.dataset.week;
+  var tabs = [].slice.call(document.querySelectorAll('nav.tabs button'));
+  var panels = [].slice.call(document.querySelectorAll('section[role=tabpanel]'));
+
+  var nav = document.querySelector('nav.tabs');
+
+  function show(name, fromClick) {
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-selected', String(t.dataset.tab === name));
+    });
+    panels.forEach(function (p) { p.hidden = p.id !== 'panel-' + name; });
+    if (fromClick) {
+      if (history.replaceState) history.replaceState(null, '', '#' + name);
+      // Park the tab bar at the top rather than jumping to the page top —
+      // otherwise every tab switch means scrolling past the header again.
+      nav.scrollIntoView({ block: 'start' });
+    }
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { show(t.dataset.tab, true); });
+  });
+
+  // --- grocery ticks, remembered per week ---
+  var boxes = [].slice.call(document.querySelectorAll('label.row input'));
+  var counter = document.getElementById('count');
+
+  function store(k, v) {
+    try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); }
+    catch (e) { /* private mode: ticks work, they just don't persist */ }
+  }
+  function load(k) {
+    try { return localStorage.getItem(k); } catch (e) { return null; }
+  }
+  function tally() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    if (counter) {
+      counter.textContent = n + ' of ' + boxes.length +
+        (n === boxes.length && boxes.length ? ' — done' : ' picked up');
+    }
+  }
+  boxes.forEach(function (b) {
+    var k = 'bory:' + KEY + ':' + b.value;
+    if (load(k) === '1') { b.checked = true; }
+    b.closest('label').classList.toggle('done', b.checked);
+    b.addEventListener('change', function () {
+      b.closest('label').classList.toggle('done', b.checked);
+      store(k, b.checked ? '1' : null);
+      tally();
+    });
+  });
+  tally();
+
+  var reset = document.getElementById('reset');
+  if (reset) reset.addEventListener('click', function () {
+    boxes.forEach(function (b) {
+      b.checked = false;
+      b.closest('label').classList.remove('done');
+      store('bory:' + KEY + ':' + b.value, null);
+    });
+    tally();
+  });
+
+  var initial = (location.hash || '').replace('#', '');
+  show(tabs.some(function (t) { return t.dataset.tab === initial; })
+       ? initial : 'groceries', false);
+})();
+</script></body></html>
