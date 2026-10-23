@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bory">
+<meta name="theme-color" content="#FCFBF9">
+<link rel="apple-touch-icon" href="../icon.png">
+<title>Bory — Week of October 26</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: #FCFBF9; color: #1A1A18;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6;
+  font-weight: 400; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 620px; margin: 0 auto; padding: 40px 22px 80px; }
+
+/* ---- header ---- */
+.mast {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 2.4px;
+  color: #8C8880; margin: 0 0 26px;
+}
+h1 {
+  font-size: 30px; font-weight: 500; letter-spacing: -0.4px;
+  line-height: 1.2; margin: 0 0 14px;
+}
+.opening { color: #1A1A18; margin: 0; max-width: 52ch; }
+.meta {
+  font-size: 13px; color: #8C8880; margin: 18px 0 0;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+.meta b { font-weight: 500; color: #1A1A18; }
+
+details.prep { margin: 26px 0 0; border-top: 1px solid #E6E3DD; }
+details.prep summary {
+  cursor: pointer; list-style: none; padding: 14px 0;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.6px;
+  color: #8C8880;
+}
+details.prep summary::-webkit-details-marker { display: none; }
+details.prep summary::after { content: " +"; color: #B4B0A8; }
+details.prep[open] summary::after { content: " \2212"; }
+details.prep ol { margin: 0 0 20px; padding-left: 20px; color: #1A1A18; }
+details.prep li { margin-bottom: 8px; }
+
+/* ---- tabs ---- */
+nav.tabs {
+  position: sticky; top: 0; z-index: 10; background: #FCFBF9;
+  display: flex; gap: 2px; margin: 30px 0 0;
+  border-bottom: 1px solid #E6E3DD;
+}
+nav.tabs button {
+  flex: 1; appearance: none; background: none; border: 0;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  font-family: inherit; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1.4px; color: #8C8880; cursor: pointer;
+  padding: 15px 2px 12px; min-height: 46px;
+}
+nav.tabs button[aria-selected="true"] {
+  color: #1A1A18; border-bottom-color: #55684F;
+}
+section[role="tabpanel"] { padding-top: 30px; }
+section[hidden] { display: none; }
+
+/* ---- groceries ---- */
+.count {
+  font-size: 12px; color: #8C8880; display: flex;
+  justify-content: space-between; align-items: baseline;
+  padding-bottom: 14px; border-bottom: 1px solid #E6E3DD;
+}
+.count button {
+  appearance: none; background: none; border: 0; padding: 4px 0;
+  font-family: inherit; font-size: 12px; color: #8C8880;
+  cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px; text-decoration-color: #E6E3DD;
+}
+.count button:hover { color: #1A1A18; }
+.sec {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; margin: 32px 0 4px;
+}
+label.row {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 13px 0; border-bottom: 1px solid #E6E3DD; cursor: pointer;
+}
+label.row input {
+  appearance: none; flex: 0 0 auto; width: 19px; height: 19px;
+  margin: 3px 0 0; border: 1.5px solid #B4B0A8; border-radius: 2px;
+  background: transparent; cursor: pointer; position: relative;
+}
+label.row input:checked { background: #55684F; border-color: #55684F; }
+label.row input:checked::after {
+  content: ""; position: absolute; left: 5.5px; top: 1.5px;
+  width: 4px; height: 9px; border: solid #fff;
+  border-width: 0 1.75px 1.75px 0; transform: rotate(45deg);
+}
+.txt { flex: 1 1 auto; min-width: 0; }
+.item { display: block; }
+.amt { display: block; font-size: 13.5px; color: #8C8880; }
+.note { display: block; font-size: 12.5px; color: #B4B0A8; font-style: italic; }
+.price {
+  flex: 0 0 auto; font-size: 13.5px; color: #8C8880;
+  font-variant-numeric: tabular-nums; padding-top: 1px;
+}
+label.row.done .item, label.row.done .amt, label.row.done .price {
+  color: #B4B0A8; text-decoration: line-through;
+  text-decoration-color: #B4B0A8;
+}
+label.row.done .note { opacity: .55; }
+
+.totals { margin-top: 36px; border-top: 1.5px solid #1A1A18; padding-top: 4px; }
+.totals div {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 9px 0; border-bottom: 1px solid #E6E3DD; font-size: 14px;
+}
+.totals div:last-child { border-bottom: 0; font-weight: 500; color: #1A1A18; }
+.totals span:first-child { color: #8C8880; }
+.totals span:last-child { font-variant-numeric: tabular-nums; }
+.totals div:last-child span { color: #1A1A18; }
+
+/* ---- recipes ---- */
+h2 { font-size: 23px; font-weight: 500; letter-spacing: -0.3px; margin: 0 0 8px; line-height: 1.25; }
+.rmeta {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 1.3px;
+  color: #8C8880; margin: 0 0 30px;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+h3 {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; font-weight: 400; margin: 34px 0 2px;
+}
+ul.ing { list-style: none; padding: 0; margin: 0; }
+ul.ing li { padding: 10px 0; border-bottom: 1px solid #E6E3DD; }
+ol.method { padding-left: 22px; margin: 8px 0 0; }
+ol.method li { padding: 7px 0; }
+ol.method li::marker { color: #B4B0A8; font-size: 13px; }
+.notes {
+  margin: 30px 0 0; padding: 18px 0 0; border-top: 1px solid #E6E3DD;
+  font-size: 14px; color: #8C8880;
+}
+.notes b { color: #1A1A18; font-weight: 500; }
+.empty { color: #8C8880; font-style: italic; }
+
+/* ---- footer / archive ---- */
+.foot {
+  margin-top: 60px; padding-top: 16px; border-top: 1px solid #E6E3DD;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+}
+.foot a { color: #8C8880; text-decoration: none; border-bottom: 1px solid #E6E3DD; }
+.foot a:hover { color: #1A1A18; }
+.week { padding: 20px 0; border-bottom: 1px solid #E6E3DD; }
+.week a { font-size: 19px; color: #1A1A18; text-decoration: none; font-weight: 500; }
+.week a:hover { color: #55684F; }
+.week p { margin: 5px 0 0; color: #8C8880; font-size: 14.5px; }
+
+@media (max-width: 480px) {
+  .wrap { padding: 30px 17px 70px; }
+  h1 { font-size: 26px; }
+  nav.tabs button { font-size: 10px; letter-spacing: 1px; }
+  .price { font-size: 13px; }
+}
+</style>
+</head><body data-week="2026-10-26"><div class="wrap">
+
+<p class="mast">Meal prep</p>
+<h1>Week of October 26</h1>
+<p class="opening">Carrot cake oats, a charred red pepper and lentil salad with feta, and a white bean and kale ribollita - the first week the ribollita has actually been schedulable, after three weeks running as the best never-cooked autumn dinner on the board and blocked every time. Kale is at its Northeast autumn peak, storage carrots are at their cheapest and sweetest, and end-of-season field peppers are exactly what you want to put under a broiler. The three separate cleanly: rolled oats, bulgur and bread for the grain, Greek yogurt, brown lentils and Great Northern beans for the protein - dairy, Lens culinaris and Phaseolus vulgaris, no species collision - and American, Levantine and Italian for the flavour base.</p>
+<p class="meta"><span>Protein <b>143g/day</b></span><span>Fibre <b>44g/day</b></span><span>Till <b>$52.61</b></span><span>Recurring <b>$41.83</b></span></p>
+<details class="prep"><summary>Prep order</summary><ol>
+<li>The night before, put the Great Northern beans in a large bowl with plenty of cold water. This is the only overnight step and the beans will not cook through in time without it.</li>
+<li>Beans on first. Drain them, boil hard for 10 minutes, then leave them simmering 45 to 55 minutes while everything else happens - they are the long pole and the rest of the day is built around them.</li>
+<li>While the beans simmer, grate the carrots and build the six oat jars, then start the lentils in a second pan and pour boiling water over the bulgur to stand for 20 minutes.</li>
+<li>Broiler on for the peppers as the lentils come off the heat, and start the ribollita soffritto on the stovetop at the same time, so the peppers steam in their covered bowl while the vegetables soften.</li>
+<li>Peel and tear the peppers, dress and assemble the salad, then finish the ribollita with the beans, kale and bread. Total active time: about 1h50.</li>
+</ol></details>
+<nav class="tabs" role="tablist">
+<button role="tab" data-tab="groceries" aria-selected="false" aria-controls="panel-groceries">Groceries</button>
+<button role="tab" data-tab="breakfast" aria-selected="false" aria-controls="panel-breakfast">Breakfast</button>
+<button role="tab" data-tab="lunch" aria-selected="false" aria-controls="panel-lunch">Lunch</button>
+<button role="tab" data-tab="dinner" aria-selected="false" aria-controls="panel-dinner">Dinner</button>
+</nav>
+<section role="tabpanel" id="panel-groceries" hidden>
+<div class="count"><span id="count"></span><button id="reset" type="button">Uncheck all</button></div>
+<p class="sec">Produce</p>
+<label class="row"><input type="checkbox" value="produce-carrots"><span class="txt"><span class="item">Carrots</span><span class="amt">1 bag / 2 lb (900g)</span><span class="note">150g grated into the oats, 200g diced into the ribollita</span></span><span class="price">$2.20</span></label>
+<label class="row"><input type="checkbox" value="produce-red-bell-peppers"><span class="txt"><span class="item">Red bell peppers</span><span class="amt">3 / about 1.2 lb (540g)</span></span><span class="price">$4.56</span></label>
+<label class="row"><input type="checkbox" value="produce-roma-tomatoes"><span class="txt"><span class="item">Roma tomatoes</span><span class="amt">8 / about 1.75 lb (800g)</span><span class="note">diced into the salad in place of cherry tomatoes, which are $1.97 dearer</span></span><span class="price">$2.32</span></label>
+<label class="row"><input type="checkbox" value="produce-flat-leaf-parsley"><span class="txt"><span class="item">Flat-leaf parsley</span><span class="amt">1 bunch</span><span class="note">the week&#x27;s one soft herb</span></span><span class="price">$1.50</span></label>
+<label class="row"><input type="checkbox" value="produce-kale-green"><span class="txt"><span class="item">Kale, green</span><span class="amt">2 bunches / about 1.5 lb (680g)</span></span><span class="price">$2.96</span></label>
+<label class="row"><input type="checkbox" value="produce-celery"><span class="txt"><span class="item">Celery</span><span class="amt">1 bunch / about 1.5 lb (680g)</span></span><span class="price">$2.36</span></label>
+<label class="row"><input type="checkbox" value="produce-yellow-onion"><span class="txt"><span class="item">Yellow onion</span><span class="amt">1 large / about 0.9 lb (400g)</span></span><span class="price">$0.88</span></label>
+<label class="row"><input type="checkbox" value="produce-garlic"><span class="txt"><span class="item">Garlic</span><span class="amt">1 head</span><span class="note">covers both mains</span></span><span class="price">$0.90</span></label>
+<label class="row"><input type="checkbox" value="produce-jalapenos"><span class="txt"><span class="item">Jalapenos</span><span class="amt">2 / about 0.5 lb (225g)</span><span class="note">sliced with the seeds in</span></span><span class="price">$0.98</span></label>
+<label class="row"><input type="checkbox" value="produce-lemons"><span class="txt"><span class="item">Lemons</span><span class="amt">2</span></span><span class="price">$1.60</span></label>
+<p class="sec">Pantry</p>
+<label class="row"><input type="checkbox" value="pantry-rolled-oats-old-fashioned"><span class="txt"><span class="item">Rolled oats, old fashioned</span><span class="amt">1 tub / 42 oz (1190g)</span><span class="note">Check pantry - about 590g should remain and 300g is needed</span></span><span class="price">$4.18</span></label>
+<label class="row"><input type="checkbox" value="pantry-raisins"><span class="txt"><span class="item">Raisins</span><span class="amt">1 carton / 12 oz (340g)</span><span class="note">uses 120g, the rest keeps</span></span><span class="price">$2.86</span></label>
+<label class="row"><input type="checkbox" value="pantry-brown-lentils-dried"><span class="txt"><span class="item">Brown lentils, dried</span><span class="amt">1 bag / 1 lb (454g)</span><span class="note">no soak needed</span></span><span class="price">$1.92</span></label>
+<label class="row"><input type="checkbox" value="pantry-bulgur-wheat"><span class="txt"><span class="item">Bulgur wheat</span><span class="amt">1 box / 12 oz (340g)</span><span class="note">the week&#x27;s one expensive-aisle item, and the cheapest one in the price file</span></span><span class="price">$2.42</span></label>
+<label class="row"><input type="checkbox" value="pantry-great-northern-beans-dried"><span class="txt"><span class="item">Great Northern beans, dried</span><span class="amt">1 bag / 16 oz (454g)</span><span class="note">the Walmart stand-in for cannellini - soak overnight</span></span><span class="price">$1.97</span></label>
+<label class="row"><input type="checkbox" value="pantry-crushed-tomatoes"><span class="txt"><span class="item">Crushed tomatoes</span><span class="amt">2 cans / 15 oz each (2 x 425g)</span></span><span class="price">$2.40</span></label>
+<label class="row"><input type="checkbox" value="pantry-whole-wheat-bread"><span class="txt"><span class="item">Whole wheat bread</span><span class="amt">1 loaf</span><span class="note">wanted a day stale for the ribollita</span></span><span class="price">$2.50</span></label>
+<label class="row"><input type="checkbox" value="pantry-vegetable-oil"><span class="txt"><span class="item">Vegetable oil</span><span class="amt">1 bottle / 48 fl oz (1.4L)</span><span class="note">Check pantry - bought Oct 16 and nearly full</span></span><span class="price">$3.74</span></label>
+<p class="sec">Dairy</p>
+<label class="row"><input type="checkbox" value="dairy-greek-yogurt-plain"><span class="txt"><span class="item">Greek yogurt, plain</span><span class="amt">1 tub / 32 oz (907g)</span><span class="note">the oats tub, 720g of it; the dinner tub is under Staples</span></span><span class="price">$3.28</span></label>
+<label class="row"><input type="checkbox" value="dairy-feta-crumbled"><span class="txt"><span class="item">Feta, crumbled</span><span class="amt">1 pack / 6 oz (170g)</span></span><span class="price">$3.96</span></label>
+<label class="row"><input type="checkbox" value="dairy-parmesan-grated"><span class="txt"><span class="item">Parmesan, grated</span><span class="amt">1 shaker / 8 oz (227g)</span><span class="note">25g a serving into the ribollita</span></span><span class="price">$3.12</span></label>
+<p class="sec">Spices</p>
+<label class="row"><input type="checkbox" value="spices-none-needed-this-week"><span class="txt"><span class="item">None needed this week</span><span class="amt">0 jars</span><span class="note">cumin, oregano, rosemary, cinnamon, cayenne and red pepper flakes are all owned</span></span><span class="price">$0.00</span></label>
+<p class="sec">Staples</p>
+<label class="row"><input type="checkbox" value="staples-bananas"><span class="txt"><span class="item">Bananas</span><span class="amt">1 bunch of 6</span></span><span class="price">$1.50</span></label>
+<label class="row"><input type="checkbox" value="staples-bagels"><span class="txt"><span class="item">Bagels</span><span class="amt">1 pack of 6</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="staples-cream-cheese"><span class="txt"><span class="item">Cream cheese</span><span class="amt">1 tub / 8 oz (225g)</span></span><span class="price">$2.50</span></label>
+<label class="row"><input type="checkbox" value="staples-pineapple-juice"><span class="txt"><span class="item">Pineapple juice</span><span class="amt">1 bottle / 46 fl oz (1.36L)</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="staples-cranberry-juice"><span class="txt"><span class="item">Cranberry juice</span><span class="amt">1 bottle / 64 fl oz (1.9L)</span></span><span class="price">$3.50</span></label>
+<label class="row"><input type="checkbox" value="staples-greek-yogurt-plain"><span class="txt"><span class="item">Greek yogurt, plain</span><span class="amt">1 tub / 32 oz (907g)</span><span class="note">the daily dinner yogurt, six 180g portions</span></span><span class="price">$3.28</span></label>
+<div class="totals">
+<div><span>Recipe ingredients - till</span><span>$52.61</span></div>
+<div><span>Recipe ingredients - recurring</span><span>$41.83</span></div>
+<div><span>Standing staples</span><span>$16.78</span></div>
+<div><span>Combined weekly - till</span><span>$69.39</span></div>
+</div>
+</section>
+<section role="tabpanel" id="panel-breakfast" hidden>
+<h2>Carrot Cake Overnight Oats</h2>
+<p class="rmeta"><span>6 servings</span><span>15 min active</span><span>28g protein</span><span>8g fibre</span><span>American</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Rolled oats, 3 1/4 cups (300g)</li>
+<li>Plain Greek yogurt, 3 cups (720g)</li>
+<li>Protein powder, 3 scoops (90g) - from the bulk tub, not on the grocery list</li>
+<li>Water, 2 cups (480ml)</li>
+<li>Carrots, 2 medium, coarsely grated / 5 oz (150g)</li>
+<li>Raisins, 3/4 cup (120g)</li>
+<li>Ground cinnamon, 2 tsp</li>
+<li>Ground nutmeg, 1/4 tsp (optional, owned)</li>
+<li>Salt, a pinch</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Whisk the protein powder into the water in a jug until not a single lump remains. Powder stirred straight into yogurt clumps irreversibly and will not come back, which is why this is step one every oats week.</li>
+<li>Grate the carrots on the coarse side of a box grater - you want shreds that keep some bite over six days, not pulp that turns to water.</li>
+<li>Stir the Greek yogurt into the protein water until smooth and pourable.</li>
+<li>Fold in the oats, grated carrot, raisins, cinnamon, nutmeg and a pinch of salt until evenly combined, with no dry pockets of oats at the bottom.</li>
+<li>Divide between six jars or tubs, about 190g each, and seal them.</li>
+<li>Refrigerate at least eight hours before the first one is eaten, so the oats soften properly and the raisins plump.</li>
+</ol>
+<p class="notes">28g protein and about 8g fibre a serving. Holds the full six days in the fridge and is eaten cold straight from the jar - grated carrot does not brown the way apple does, so there is no day-of step at all. It thickens as the week goes on; a splash of water stirred through loosens it.</p>
+</section>
+<section role="tabpanel" id="panel-lunch" hidden>
+<h2>Lentil, Bulgur and Charred Red Pepper Salad with Feta</h2>
+<p class="rmeta"><span>6 servings</span><span>45 min active</span><span>28g protein</span><span>17g fibre</span><span>Levantine</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Brown lentils, dried, 2 1/4 cups (450g)</li>
+<li>Bulgur wheat, 1 3/4 cups (300g)</li>
+<li>Red bell peppers, 3</li>
+<li>Roma tomatoes, 8 / about 1.75 lb (800g), diced</li>
+<li>Flat-leaf parsley, 1 bunch, chopped</li>
+<li>Feta, crumbled, 6 oz (170g)</li>
+<li>Lemons, 2 - all the juice, the zest of one</li>
+<li>Vegetable oil, 1/3 cup (80ml)</li>
+<li>Garlic, 3 cloves, grated</li>
+<li>Ground cumin, 2 tsp</li>
+<li>Cayenne, 1 1/2 tsp</li>
+<li>Red pepper flakes, 2 tsp</li>
+<li>Salt and black pepper</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Rinse the lentils and simmer them in plenty of unsalted water for 20 to 25 minutes, until tender but still holding their shape. Drain, spread on a tray to cool fast, and salt them while they are still warm so they take it up.</li>
+<li>Put the bulgur in a bowl, pour over 2 1/4 cups (540ml) of boiling water, cover and leave it 20 minutes, then fork it through to separate the grains.</li>
+<li>Set the broiler to high and char the whole peppers on a foil-lined tray for 15 to 20 minutes, turning them until the skins are blackened and blistered all over.</li>
+<li>Seal the hot peppers in a covered bowl for 10 minutes, then slip off the skins, discard the seeds and tear the flesh into wide strips, keeping every drop of juice that collects in the bowl.</li>
+<li>Whisk the lemon juice and zest, oil, garlic, cumin, cayenne, pepper flakes and the reserved pepper juices into a dressing, and season it harder than seems sensible - both bulgur and lentils flatten salt as they sit.</li>
+<li>Fold the lentils, bulgur, peppers, diced tomatoes and all the dressing together.</li>
+<li>Stir in the parsley and the crumbled feta last, with a light hand, so the feta stays in recognisable pieces rather than smearing through.</li>
+<li>Divide between six tubs of about 400ml.</li>
+</ol>
+<p class="notes">28g protein and about 17g fibre a serving. Holds six days cold - the dressing stops the grains drying out and the feta firms rather than dissolving. Eaten cold straight from the tub, with no day-of step and no reheating. The heat climbs through the week as the cayenne settles into the oil, so day five is noticeably hotter than day one; that is the intended direction, not a fault.</p>
+</section>
+<section role="tabpanel" id="panel-dinner" hidden>
+<h2>White Bean and Kale Ribollita</h2>
+<p class="rmeta"><span>6 servings</span><span>50 min active</span><span>28g protein</span><span>19g fibre</span><span>Italian</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Great Northern beans, dried, 2 1/4 cups (450g), soaked overnight</li>
+<li>Kale, 2 bunches / about 1.5 lb (680g), stems stripped, leaves shredded</li>
+<li>Whole wheat bread, about 8 thick slices / 10 oz (280g), a day stale, cubed</li>
+<li>Crushed tomatoes, 2 cans / 30 oz (850g)</li>
+<li>Celery, 4 ribs, diced</li>
+<li>Carrots, 2 medium / 7 oz (200g), diced</li>
+<li>Yellow onion, 1 large, diced</li>
+<li>Garlic, 4 cloves, sliced</li>
+<li>Jalapenos, 2, sliced with the seeds in</li>
+<li>Parmesan, grated, 5 oz (150g)</li>
+<li>Vegetable oil, 1/4 cup (60ml)</li>
+<li>Dried rosemary, 2 tsp</li>
+<li>Red pepper flakes, 2 tsp</li>
+<li>Salt and black pepper</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Drain the soaked beans, cover them with fresh water by two inches, boil hard for 10 minutes and then simmer 45 to 55 minutes until completely soft. Keep about 3 cups (700ml) of the cooking liquor and do not salt them until they are tender, or the skins stay tough.</li>
+<li>While the beans cook, soften the onion, carrot and celery in the oil in a large pot over medium heat for 12 to 15 minutes, until sweet and collapsing rather than browned.</li>
+<li>Add the garlic, jalapenos, rosemary and pepper flakes and fry one minute more, until the garlic smells cooked rather than raw.</li>
+<li>Stir in the crushed tomatoes and cook 10 minutes, until the sauce darkens and loses its tinny edge.</li>
+<li>Mash roughly a third of the beans with a fork, then add all the beans and the reserved liquor to the pot and bring it to a simmer. The mashed third is what gives ribollita its body without a blender.</li>
+<li>Fold in the kale a handful at a time and simmer 15 minutes, until it is silky and no longer squeaks against the spoon.</li>
+<li>Stir in the cubed bread and cook a final 10 minutes, breaking it down with the back of the spoon until the stew is thick enough to hold a spoon upright.</li>
+<li>Season hard, stir half the parmesan through, then divide between six tubs of about 450ml and keep the rest of the parmesan to scatter over each bowl after reheating.</li>
+</ol>
+<p class="notes">28g protein and about 19g fibre a serving, and about 19g more protein from the 180g of Greek yogurt alongside. Holds six days and genuinely improves for the first three - ribollita means reboiled. Microwave 3 minutes covered, stirring at the halfway mark and loosening with a splash of water first, because it sets almost solid in the fridge. The reserved parmesan and the yogurt both go on after reheating, not before. The jalapeno heat climbs over the week, so no hot sauce on the side is needed.</p>
+</section>
+<div class="foot"><a href="../archive.html">Past weeks</a></div>
+</div><script>
+(function () {
+  var KEY = document.body.dataset.week;
+  var tabs = [].slice.call(document.querySelectorAll('nav.tabs button'));
+  var panels = [].slice.call(document.querySelectorAll('section[role=tabpanel]'));
+
+  var nav = document.querySelector('nav.tabs');
+
+  function show(name, fromClick) {
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-selected', String(t.dataset.tab === name));
+    });
+    panels.forEach(function (p) { p.hidden = p.id !== 'panel-' + name; });
+    if (fromClick) {
+      if (history.replaceState) history.replaceState(null, '', '#' + name);
+      // Park the tab bar at the top rather than jumping to the page top —
+      // otherwise every tab switch means scrolling past the header again.
+      nav.scrollIntoView({ block: 'start' });
+    }
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { show(t.dataset.tab, true); });
+  });
+
+  // --- grocery ticks, remembered per week ---
+  var boxes = [].slice.call(document.querySelectorAll('label.row input'));
+  var counter = document.getElementById('count');
+
+  function store(k, v) {
+    try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); }
+    catch (e) { /* private mode: ticks work, they just don't persist */ }
+  }
+  function load(k) {
+    try { return localStorage.getItem(k); } catch (e) { return null; }
+  }
+  function tally() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    if (counter) {
+      counter.textContent = n + ' of ' + boxes.length +
+        (n === boxes.length && boxes.length ? ' — done' : ' picked up');
+    }
+  }
+  boxes.forEach(function (b) {
+    var k = 'bory:' + KEY + ':' + b.value;
+    if (load(k) === '1') { b.checked = true; }
+    b.closest('label').classList.toggle('done', b.checked);
+    b.addEventListener('change', function () {
+      b.closest('label').classList.toggle('done', b.checked);
+      store(k, b.checked ? '1' : null);
+      tally();
+    });
+  });
+  tally();
+
+  var reset = document.getElementById('reset');
+  if (reset) reset.addEventListener('click', function () {
+    boxes.forEach(function (b) {
+      b.checked = false;
+      b.closest('label').classList.remove('done');
+      store('bory:' + KEY + ':' + b.value, null);
+    });
+    tally();
+  });
+
+  var initial = (location.hash || '').replace('#', '');
+  show(tabs.some(function (t) { return t.dataset.tab === initial; })
+       ? initial : 'groceries', false);
+})();
+</script></body></html>
