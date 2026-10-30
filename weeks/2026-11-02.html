@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bory">
+<meta name="theme-color" content="#FCFBF9">
+<link rel="apple-touch-icon" href="../icon.png">
+<title>Bory — Week of November 2</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: #FCFBF9; color: #1A1A18;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6;
+  font-weight: 400; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 620px; margin: 0 auto; padding: 40px 22px 80px; }
+
+/* ---- header ---- */
+.mast {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 2.4px;
+  color: #8C8880; margin: 0 0 26px;
+}
+h1 {
+  font-size: 30px; font-weight: 500; letter-spacing: -0.4px;
+  line-height: 1.2; margin: 0 0 14px;
+}
+.opening { color: #1A1A18; margin: 0; max-width: 52ch; }
+.meta {
+  font-size: 13px; color: #8C8880; margin: 18px 0 0;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+.meta b { font-weight: 500; color: #1A1A18; }
+
+details.prep { margin: 26px 0 0; border-top: 1px solid #E6E3DD; }
+details.prep summary {
+  cursor: pointer; list-style: none; padding: 14px 0;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.6px;
+  color: #8C8880;
+}
+details.prep summary::-webkit-details-marker { display: none; }
+details.prep summary::after { content: " +"; color: #B4B0A8; }
+details.prep[open] summary::after { content: " \2212"; }
+details.prep ol { margin: 0 0 20px; padding-left: 20px; color: #1A1A18; }
+details.prep li { margin-bottom: 8px; }
+
+/* ---- tabs ---- */
+nav.tabs {
+  position: sticky; top: 0; z-index: 10; background: #FCFBF9;
+  display: flex; gap: 2px; margin: 30px 0 0;
+  border-bottom: 1px solid #E6E3DD;
+}
+nav.tabs button {
+  flex: 1; appearance: none; background: none; border: 0;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  font-family: inherit; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1.4px; color: #8C8880; cursor: pointer;
+  padding: 15px 2px 12px; min-height: 46px;
+}
+nav.tabs button[aria-selected="true"] {
+  color: #1A1A18; border-bottom-color: #55684F;
+}
+section[role="tabpanel"] { padding-top: 30px; }
+section[hidden] { display: none; }
+
+/* ---- groceries ---- */
+.count {
+  font-size: 12px; color: #8C8880; display: flex;
+  justify-content: space-between; align-items: baseline;
+  padding-bottom: 14px; border-bottom: 1px solid #E6E3DD;
+}
+.count button {
+  appearance: none; background: none; border: 0; padding: 4px 0;
+  font-family: inherit; font-size: 12px; color: #8C8880;
+  cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px; text-decoration-color: #E6E3DD;
+}
+.count button:hover { color: #1A1A18; }
+.sec {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; margin: 32px 0 4px;
+}
+label.row {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 13px 0; border-bottom: 1px solid #E6E3DD; cursor: pointer;
+}
+label.row input {
+  appearance: none; flex: 0 0 auto; width: 19px; height: 19px;
+  margin: 3px 0 0; border: 1.5px solid #B4B0A8; border-radius: 2px;
+  background: transparent; cursor: pointer; position: relative;
+}
+label.row input:checked { background: #55684F; border-color: #55684F; }
+label.row input:checked::after {
+  content: ""; position: absolute; left: 5.5px; top: 1.5px;
+  width: 4px; height: 9px; border: solid #fff;
+  border-width: 0 1.75px 1.75px 0; transform: rotate(45deg);
+}
+.txt { flex: 1 1 auto; min-width: 0; }
+.item { display: block; }
+.amt { display: block; font-size: 13.5px; color: #8C8880; }
+.note { display: block; font-size: 12.5px; color: #B4B0A8; font-style: italic; }
+.price {
+  flex: 0 0 auto; font-size: 13.5px; color: #8C8880;
+  font-variant-numeric: tabular-nums; padding-top: 1px;
+}
+label.row.done .item, label.row.done .amt, label.row.done .price {
+  color: #B4B0A8; text-decoration: line-through;
+  text-decoration-color: #B4B0A8;
+}
+label.row.done .note { opacity: .55; }
+
+.totals { margin-top: 36px; border-top: 1.5px solid #1A1A18; padding-top: 4px; }
+.totals div {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 9px 0; border-bottom: 1px solid #E6E3DD; font-size: 14px;
+}
+.totals div:last-child { border-bottom: 0; font-weight: 500; color: #1A1A18; }
+.totals span:first-child { color: #8C8880; }
+.totals span:last-child { font-variant-numeric: tabular-nums; }
+.totals div:last-child span { color: #1A1A18; }
+
+/* ---- recipes ---- */
+h2 { font-size: 23px; font-weight: 500; letter-spacing: -0.3px; margin: 0 0 8px; line-height: 1.25; }
+.rmeta {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 1.3px;
+  color: #8C8880; margin: 0 0 30px;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+h3 {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; font-weight: 400; margin: 34px 0 2px;
+}
+ul.ing { list-style: none; padding: 0; margin: 0; }
+ul.ing li { padding: 10px 0; border-bottom: 1px solid #E6E3DD; }
+ol.method { padding-left: 22px; margin: 8px 0 0; }
+ol.method li { padding: 7px 0; }
+ol.method li::marker { color: #B4B0A8; font-size: 13px; }
+.notes {
+  margin: 30px 0 0; padding: 18px 0 0; border-top: 1px solid #E6E3DD;
+  font-size: 14px; color: #8C8880;
+}
+.notes b { color: #1A1A18; font-weight: 500; }
+.empty { color: #8C8880; font-style: italic; }
+
+/* ---- footer / archive ---- */
+.foot {
+  margin-top: 60px; padding-top: 16px; border-top: 1px solid #E6E3DD;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+}
+.foot a { color: #8C8880; text-decoration: none; border-bottom: 1px solid #E6E3DD; }
+.foot a:hover { color: #1A1A18; }
+.week { padding: 20px 0; border-bottom: 1px solid #E6E3DD; }
+.week a { font-size: 19px; color: #1A1A18; text-decoration: none; font-weight: 500; }
+.week a:hover { color: #55684F; }
+.week p { margin: 5px 0 0; color: #8C8880; font-size: 14.5px; }
+
+@media (max-width: 480px) {
+  .wrap { padding: 30px 17px 70px; }
+  h1 { font-size: 26px; }
+  nav.tabs button { font-size: 10px; letter-spacing: 1px; }
+  .price { font-size: 13px; }
+}
+</style>
+</head><body data-week="2026-11-02"><div class="wrap">
+
+<p class="mast">Meal prep</p>
+<h1>Week of November 2</h1>
+<p class="opening">Three picks, two of them cooked here for the first time. Rajma with jeera rice is the winter pulse dish the library has been holding since August and November is exactly its month, and the lentil bolognese leans on storage carrots, celery and onions at their Northeast autumn peak. The frozen berry and chia oats are the headline: the only recipe in the library never cooked, passed over six weeks running, and they finally fit because both mains are dried pulses with nothing from the expensive aisle, which leaves the week&#x27;s one allowance free for the chia. Frozen berries are also simply the right berry in November. Separation is clean on all three axes — rolled oats, brown rice and whole wheat pasta for the grain; Greek yogurt, kidney bean and brown lentil for the protein; American, Indian and Italian for the kitchen. Protein: 32 at breakfast + 28 at lunch + 30 at dinner = 90g from the meals, plus the 40g shake and about 19g of Greek yogurt with dinner, for 149g a day against the 140 target. Fibre runs to about 70g a day, which is more than double the 30g floor and the highest on record — two dried-pulse mains plus a chia breakfast is the highest-fibre shape this library can produce, and it is worth knowing before Monday. The most expensive line of the week by a distance is the chia at $10.78, a fifth of the recipe spend for 60g of use; the breakfast notes carry the one-line swap if you would rather not buy a 2 lb tub.</p>
+<p class="meta"><span>Protein <b>149g/day</b></span><span>Fibre <b>70g/day</b></span><span>Till <b>$51.49</b></span><span>Recurring <b>$32.79</b></span></p>
+<details class="prep"><summary>Prep order</summary><ol>
+<li>The night before: cover the kidney beans with cold water and leave them on the counter. That is the only overnight step in the week, and skipping it adds an hour to prep day.</li>
+<li>Beans on first — hard boil, then a 45 to 55 minute simmer. They are the long pole and everything else is built around them. Put the rice cooker on with the jeera rice at the same time and forget it.</li>
+<li>While the beans simmer, build the bolognese: soffritto for 15 minutes, fry out the tomato paste, then lentils and tomatoes in for 25 to 30 minutes. Two pans going, neither needing much attention.</li>
+<li>Make the rajma masala in a third pan while the bolognese simmers, then boil the pasta last so it is the freshest thing going into the fridge. The oats are assembled cold at the end and take five minutes.</li>
+<li>Total active time: about 1h45 against the 2.5 hour ceiling.</li>
+</ol></details>
+<nav class="tabs" role="tablist">
+<button role="tab" data-tab="groceries" aria-selected="false" aria-controls="panel-groceries">Groceries</button>
+<button role="tab" data-tab="breakfast" aria-selected="false" aria-controls="panel-breakfast">Breakfast</button>
+<button role="tab" data-tab="lunch" aria-selected="false" aria-controls="panel-lunch">Lunch</button>
+<button role="tab" data-tab="dinner" aria-selected="false" aria-controls="panel-dinner">Dinner</button>
+</nav>
+<section role="tabpanel" id="panel-groceries" hidden>
+<div class="count"><span id="count"></span><button id="reset" type="button">Uncheck all</button></div>
+<p class="sec">Produce</p>
+<label class="row"><input type="checkbox" value="produce-yellow-onions"><span class="txt"><span class="item">Yellow onions</span><span class="amt">3 loose / about 2 lb (900g)</span><span class="note">Two go into the rajma masala, one into the soffritto</span></span><span class="price">$2.64</span></label>
+<label class="row"><input type="checkbox" value="produce-carrots"><span class="txt"><span class="item">Carrots</span><span class="amt">1 bag / 2 lb (900g)</span><span class="note">Storage carrots are at their Northeast peak now</span></span><span class="price">$2.20</span></label>
+<label class="row"><input type="checkbox" value="produce-celery"><span class="txt"><span class="item">Celery</span><span class="amt">1 bunch / about 1.5 lb (680g)</span><span class="note">Half goes in the soffritto; the rest keeps</span></span><span class="price">$2.36</span></label>
+<label class="row"><input type="checkbox" value="produce-jalape-os"><span class="txt"><span class="item">Jalapeños</span><span class="amt">2 / about 0.5 lb (225g)</span><span class="note">Sliced with the seeds in, into the rajma</span></span><span class="price">$0.98</span></label>
+<label class="row"><input type="checkbox" value="produce-fresh-ginger"><span class="txt"><span class="item">Fresh ginger</span><span class="amt">smallest piece / about 0.25 lb (115g)</span><span class="note">Final cost by weight; there will be spare</span></span><span class="price">$0.99</span></label>
+<label class="row"><input type="checkbox" value="produce-garlic"><span class="txt"><span class="item">Garlic</span><span class="amt">1 head</span><span class="note">Covers both mains</span></span><span class="price">$0.90</span></label>
+<label class="row"><input type="checkbox" value="produce-cilantro"><span class="txt"><span class="item">Cilantro</span><span class="amt">1 bunch</span><span class="note">The week&#x27;s one soft-herb bunch</span></span><span class="price">$1.00</span></label>
+<label class="row"><input type="checkbox" value="produce-frozen-berry-medley-great-value"><span class="txt"><span class="item">Frozen berry medley, Great Value</span><span class="amt">1 bag / 16 oz (454g)</span><span class="note">75g a serving, so the bag is exact</span></span><span class="price">$3.72</span></label>
+<p class="sec">Pantry</p>
+<label class="row"><input type="checkbox" value="pantry-kidney-beans-dried-great-value"><span class="txt"><span class="item">Kidney beans, dried, Great Value</span><span class="amt">2 bags / 1 lb each (908g)</span><span class="note">95g dry a serving; 338g left in the bag</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="pantry-brown-lentils-dried-great-value"><span class="txt"><span class="item">Brown lentils, dried, Great Value</span><span class="amt">1 bag / 1 lb (454g)</span><span class="note">75g dry a serving — one bag exactly</span></span><span class="price">$1.92</span></label>
+<label class="row"><input type="checkbox" value="pantry-whole-wheat-pasta"><span class="txt"><span class="item">Whole wheat pasta</span><span class="amt">1 box / 16 oz (454g)</span><span class="note">75g dry a serving — exact, with no margin</span></span><span class="price">$1.60</span></label>
+<label class="row"><input type="checkbox" value="pantry-brown-rice-great-value"><span class="txt"><span class="item">Brown rice, Great Value</span><span class="amt">1 bag / 2 lb (908g)</span><span class="note">Standing stand-in for basmati; worth about 2g more fibre a serving</span></span><span class="price">$2.50</span></label>
+<label class="row"><input type="checkbox" value="pantry-rolled-oats-great-value-old-fashioned"><span class="txt"><span class="item">Rolled oats, Great Value old fashioned</span><span class="amt">1 tub / 42 oz (1190g)</span><span class="note">A genuine buy this week — the Oct 12 tub is down to roughly 290g against the 300g needed</span></span><span class="price">$4.18</span></label>
+<label class="row"><input type="checkbox" value="pantry-crushed-tomatoes"><span class="txt"><span class="item">Crushed tomatoes</span><span class="amt">4 cans / 15 oz each</span><span class="note">Two for the rajma gravy, two for the ragù</span></span><span class="price">$4.80</span></label>
+<label class="row"><input type="checkbox" value="pantry-tomato-paste"><span class="txt"><span class="item">Tomato paste</span><span class="amt">1 can / 6 oz (170g)</span><span class="note">Fried out dark in oil — the depth in the ragù</span></span><span class="price">$0.90</span></label>
+<label class="row"><input type="checkbox" value="pantry-chia-seeds-great-value-organic"><span class="txt"><span class="item">Chia seeds, Great Value Organic</span><span class="amt">1 tub / 32 oz (907g)</span><span class="note">The week&#x27;s one expensive-aisle item. Uses 60g; the tub is about 15 chia weeks</span></span><span class="price">$10.78</span></label>
+<label class="row"><input type="checkbox" value="pantry-vegetable-oil-great-value"><span class="txt"><span class="item">Vegetable oil, Great Value</span><span class="amt">1 bottle / 48 fl oz (1420ml)</span><span class="note">Check pantry — the Oct 16 bottle is nearly full, and it is still priced in full on the till</span></span><span class="price">$3.74</span></label>
+<p class="sec">Dairy</p>
+<label class="row"><input type="checkbox" value="dairy-greek-yogurt-plain-great-value"><span class="txt"><span class="item">Greek yogurt, plain, Great Value</span><span class="amt">1 tub / 32 oz (907g)</span><span class="note">120g a serving into the oats, 720g of the tub</span></span><span class="price">$3.28</span></label>
+<p class="sec">Spices</p>
+<label class="row"><input type="checkbox" value="spices-garam-masala"><span class="txt"><span class="item">Garam masala</span><span class="amt">mixed from owned cumin, cinnamon and black pepper</span><span class="note">No new jar. Same move as the berbere blend of Sep 21 — zero new spices this week</span></span><span class="price">$0.00</span></label>
+<p class="sec">Staples</p>
+<label class="row"><input type="checkbox" value="staples-bananas"><span class="txt"><span class="item">Bananas</span><span class="amt">1 bunch</span></span><span class="price">$1.50</span></label>
+<label class="row"><input type="checkbox" value="staples-bagels"><span class="txt"><span class="item">Bagels</span><span class="amt">1 pack of 6</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="staples-cream-cheese"><span class="txt"><span class="item">Cream cheese</span><span class="amt">1 tub / 8 oz</span></span><span class="price">$2.50</span></label>
+<label class="row"><input type="checkbox" value="staples-pineapple-juice"><span class="txt"><span class="item">Pineapple juice</span><span class="amt">1 bottle / 46 oz</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="staples-cranberry-juice"><span class="txt"><span class="item">Cranberry juice</span><span class="amt">1 bottle / 64 oz</span></span><span class="price">$3.50</span></label>
+<label class="row"><input type="checkbox" value="staples-greek-yogurt-plain-great-value"><span class="txt"><span class="item">Greek yogurt, plain, Great Value</span><span class="amt">1 tub / 32 oz (907g)</span><span class="note">The second tub — 180g alongside each dinner</span></span><span class="price">$3.28</span></label>
+<div class="totals">
+<div><span>Recipe ingredients — till</span><span>$51.49</span></div>
+<div><span>Recipe ingredients — recurring</span><span>$32.79</span></div>
+<div><span>Standing staples</span><span>$16.78</span></div>
+<div><span>Combined weekly — till</span><span>$68.27</span></div>
+</div>
+</section>
+<section role="tabpanel" id="panel-breakfast" hidden>
+<h2>Frozen Berry and Chia Overnight Oats</h2>
+<p class="rmeta"><span>6 servings</span><span>15 min active</span><span>32g protein</span><span>11g fibre</span><span>American</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Rolled oats, 3 cups (300g)</li>
+<li>Plain Greek yogurt, 3 cups (720g)</li>
+<li>Protein powder, 3 half-scoops (about 90g) — from the bulk tub, not on the grocery list</li>
+<li>Chia seeds, 6 tbsp (60g)</li>
+<li>Frozen berry medley, 3 cups (450g)</li>
+<li>Water, 2 cups (480ml)</li>
+<li>Ground cinnamon, 1 tsp</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Whisk the protein powder into the 480ml of water in a jug until it is completely smooth, before it goes anywhere near the yogurt. Powder stirred straight into Greek yogurt clumps and never recovers.</li>
+<li>In a large bowl, combine the oats, chia seeds, cinnamon and Greek yogurt, then pour in the protein water and stir until there are no dry pockets. It will look too loose; the chia takes it the rest of the way overnight.</li>
+<li>Divide between six jars, about 260g each, and press 75g of frozen berries into the top of each one. Do not stir them in — they bleed far less if they sit on top and thaw down through the oats.</li>
+<li>Lid them and refrigerate. They are ready at eight hours and eaten cold, straight from the jar.</li>
+</ol>
+<p class="notes">32g protein and about 11g fibre a serving, from 50g oats, 120g Greek yogurt, a half scoop of protein powder and 10g of chia. Holds 6 days. The chia keeps thickening, so days 5 and 6 are spoonable rather than pourable — a splash of water loosens them if that bothers you. No day-of step. This is the first time this recipe has been scheduled: it is the only entry in the library never cooked, and it has been passed over six weeks running on the cost of the chia. If the $10.78 tub is not worth it to you, swapping in Cinnamon Roll Overnight Oats drops the chia and the berries and adds $1.98 of brown sugar, taking the week&#x27;s recipe till from $51.49 to $38.97, which would be the cheapest week on record. It was taken here because the tub is about fifteen chia weeks, so the recurring cost of this breakfast is nearer 72 cents.</p>
+</section>
+<section role="tabpanel" id="panel-lunch" hidden>
+<h2>Rajma with Jeera Rice</h2>
+<p class="rmeta"><span>6 servings</span><span>45 min active, plus an overnight soak</span><span>28g protein</span><span>28g fibre</span><span>Indian</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Kidney beans, dried, 3 cups (570g)</li>
+<li>Brown rice, 2 cups (360g)</li>
+<li>Crushed tomatoes, 2 cans / 30 oz (840g)</li>
+<li>Yellow onions, 2 large (450g), finely chopped</li>
+<li>Fresh ginger, 2 tbsp grated (30g)</li>
+<li>Garlic, 6 cloves, crushed</li>
+<li>Jalapeños, 2, sliced with the seeds in</li>
+<li>Cilantro, 1 bunch, chopped</li>
+<li>Vegetable oil, 4 tbsp (60ml)</li>
+<li>Cumin, 3 tsp — owned</li>
+<li>Ground turmeric, 1.5 tsp — owned</li>
+<li>Chili powder, 2 tsp — owned</li>
+<li>Cayenne, 1.5 tsp — owned</li>
+<li>Ground cinnamon, 1/2 tsp and black pepper, 1 tsp — the garam masala stand-in, owned</li>
+<li>Salt</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>The night before, cover the kidney beans with at least three inches of cold water and leave them on the counter.</li>
+<li>Drain the beans, cover with fresh water by two inches, bring to a hard boil for 10 minutes, then simmer 45 to 55 minutes until a bean crushes easily against the side of the pan. Keep the cooking liquor — it is the body of the gravy.</li>
+<li>While the beans go, put the rice in the rice cooker with 2.5 cups of water, 2 tsp of the cumin and a pinch of salt, and leave it alone. That is the jeera rice and it needs no further attention.</li>
+<li>Heat the oil in a wide pan and fry the onions hard for 12 to 15 minutes until they are genuinely brown at the edges rather than merely soft — this is where the gravy gets its depth. Add the ginger, garlic and jalapeños and cook 2 minutes, then the turmeric, chili powder, cayenne, cinnamon and black pepper and cook 30 seconds more, until they smell toasted.</li>
+<li>Add the crushed tomatoes and cook down 10 to 12 minutes, until the oil separates out at the edges. Tip in the beans with about 2 cups of their liquor, mash a cupful of beans against the side of the pan to thicken, and simmer 15 minutes. Salt to taste.</li>
+<li>Fold the chopped cilantro through off the heat, then portion the rajma and the rice into six containers.</li>
+</ol>
+<p class="notes">28g protein and about 28g fibre a serving, nearly all of it from 95g of dry kidney beans. Holds 6 days; microwave 2.5 minutes with a stir halfway and a splash of water. The cilantro is folded in on prep day rather than scattered at serving, so it mellows over the week — that is the trade for having no day-of step. The heat climbs: jalapeño seeds and cayenne keep working in the fridge, so day 6 is hotter than day 1. Brown rice stands in for basmati, which is settled policy here and worth about 2g more fibre a serving.</p>
+</section>
+<section role="tabpanel" id="panel-dinner" hidden>
+<h2>Lentil Bolognese with Whole Wheat Pasta</h2>
+<p class="rmeta"><span>6 servings</span><span>45 min active</span><span>30g protein</span><span>31g fibre</span><span>Italian</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Brown lentils, dried, 2.5 cups (450g)</li>
+<li>Whole wheat pasta, 1 box / 16 oz (450g)</li>
+<li>Crushed tomatoes, 2 cans / 30 oz (840g)</li>
+<li>Tomato paste, 1 can / 6 oz (170g)</li>
+<li>Carrots, 2 lb (900g), diced small</li>
+<li>Celery, 3 stalks (250g), diced small</li>
+<li>Yellow onion, 1 large (225g), diced small</li>
+<li>Garlic, 4 cloves, crushed</li>
+<li>Vegetable oil, 3 tbsp (45ml)</li>
+<li>Dried rosemary, 1.5 tsp — owned</li>
+<li>Dried oregano, 2 tsp — owned</li>
+<li>Red pepper flakes, 2 tsp — owned</li>
+<li>Salt and black pepper</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Sweat the onion, carrot and celery in the oil over medium heat for 15 minutes, stirring now and then. The soffritto should collapse and sweeten; it should not brown.</li>
+<li>Push the vegetables to one side, add the tomato paste to the bare metal and fry it 2 to 3 minutes until it darkens from red to brick. Stir it back through with the garlic, rosemary, oregano and pepper flakes.</li>
+<li>Add the lentils, the crushed tomatoes and 4 cups (1 litre) of water. Bring to a simmer and cook 25 to 30 minutes, stirring occasionally, until the lentils are soft and a spoon drawn through the sauce leaves a track. Salt generously — a lentil ragù takes more than you expect.</li>
+<li>Boil the pasta in well-salted water to one minute short of the packet time and drain it. Toss it with about a third of the sauce so every strand is coated rather than swimming, portion it into six containers, and spoon the remaining sauce over the top.</li>
+</ol>
+<p class="notes">30g protein and about 31g fibre a serving, from 75g of dry lentils and 75g of whole wheat pasta. Holds 6 days; microwave 3 minutes covered, with a splash of water and a stir halfway. Whole wheat pasta reheats better than white because it starts firmer, and tossing it in sauce on prep day is what stops it drying out at the edges. No cheese this week — a spoonful of the dinner Greek yogurt on top after reheating does the same job for nothing. The pepper flakes climb over the six days.</p>
+</section>
+<div class="foot"><a href="../archive.html">Past weeks</a></div>
+</div><script>
+(function () {
+  var KEY = document.body.dataset.week;
+  var tabs = [].slice.call(document.querySelectorAll('nav.tabs button'));
+  var panels = [].slice.call(document.querySelectorAll('section[role=tabpanel]'));
+
+  var nav = document.querySelector('nav.tabs');
+
+  function show(name, fromClick) {
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-selected', String(t.dataset.tab === name));
+    });
+    panels.forEach(function (p) { p.hidden = p.id !== 'panel-' + name; });
+    if (fromClick) {
+      if (history.replaceState) history.replaceState(null, '', '#' + name);
+      // Park the tab bar at the top rather than jumping to the page top —
+      // otherwise every tab switch means scrolling past the header again.
+      nav.scrollIntoView({ block: 'start' });
+    }
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { show(t.dataset.tab, true); });
+  });
+
+  // --- grocery ticks, remembered per week ---
+  var boxes = [].slice.call(document.querySelectorAll('label.row input'));
+  var counter = document.getElementById('count');
+
+  function store(k, v) {
+    try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); }
+    catch (e) { /* private mode: ticks work, they just don't persist */ }
+  }
+  function load(k) {
+    try { return localStorage.getItem(k); } catch (e) { return null; }
+  }
+  function tally() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    if (counter) {
+      counter.textContent = n + ' of ' + boxes.length +
+        (n === boxes.length && boxes.length ? ' — done' : ' picked up');
+    }
+  }
+  boxes.forEach(function (b) {
+    var k = 'bory:' + KEY + ':' + b.value;
+    if (load(k) === '1') { b.checked = true; }
+    b.closest('label').classList.toggle('done', b.checked);
+    b.addEventListener('change', function () {
+      b.closest('label').classList.toggle('done', b.checked);
+      store(k, b.checked ? '1' : null);
+      tally();
+    });
+  });
+  tally();
+
+  var reset = document.getElementById('reset');
+  if (reset) reset.addEventListener('click', function () {
+    boxes.forEach(function (b) {
+      b.checked = false;
+      b.closest('label').classList.remove('done');
+      store('bory:' + KEY + ':' + b.value, null);
+    });
+    tally();
+  });
+
+  var initial = (location.hash || '').replace('#', '');
+  show(tabs.some(function (t) { return t.dataset.tab === initial; })
+       ? initial : 'groceries', false);
+})();
+</script></body></html>
