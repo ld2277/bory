@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bory">
+<meta name="theme-color" content="#FCFBF9">
+<link rel="apple-touch-icon" href="../icon.png">
+<title>Bory — Week of November 9</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: #FCFBF9; color: #1A1A18;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6;
+  font-weight: 400; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 620px; margin: 0 auto; padding: 40px 22px 80px; }
+
+/* ---- header ---- */
+.mast {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 2.4px;
+  color: #8C8880; margin: 0 0 26px;
+}
+h1 {
+  font-size: 30px; font-weight: 500; letter-spacing: -0.4px;
+  line-height: 1.2; margin: 0 0 14px;
+}
+.opening { color: #1A1A18; margin: 0; max-width: 52ch; }
+.meta {
+  font-size: 13px; color: #8C8880; margin: 18px 0 0;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+.meta b { font-weight: 500; color: #1A1A18; }
+
+details.prep { margin: 26px 0 0; border-top: 1px solid #E6E3DD; }
+details.prep summary {
+  cursor: pointer; list-style: none; padding: 14px 0;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.6px;
+  color: #8C8880;
+}
+details.prep summary::-webkit-details-marker { display: none; }
+details.prep summary::after { content: " +"; color: #B4B0A8; }
+details.prep[open] summary::after { content: " \2212"; }
+details.prep ol { margin: 0 0 20px; padding-left: 20px; color: #1A1A18; }
+details.prep li { margin-bottom: 8px; }
+
+/* ---- tabs ---- */
+nav.tabs {
+  position: sticky; top: 0; z-index: 10; background: #FCFBF9;
+  display: flex; gap: 2px; margin: 30px 0 0;
+  border-bottom: 1px solid #E6E3DD;
+}
+nav.tabs button {
+  flex: 1; appearance: none; background: none; border: 0;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  font-family: inherit; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1.4px; color: #8C8880; cursor: pointer;
+  padding: 15px 2px 12px; min-height: 46px;
+}
+nav.tabs button[aria-selected="true"] {
+  color: #1A1A18; border-bottom-color: #55684F;
+}
+section[role="tabpanel"] { padding-top: 30px; }
+section[hidden] { display: none; }
+
+/* ---- groceries ---- */
+.count {
+  font-size: 12px; color: #8C8880; display: flex;
+  justify-content: space-between; align-items: baseline;
+  padding-bottom: 14px; border-bottom: 1px solid #E6E3DD;
+}
+.count button {
+  appearance: none; background: none; border: 0; padding: 4px 0;
+  font-family: inherit; font-size: 12px; color: #8C8880;
+  cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px; text-decoration-color: #E6E3DD;
+}
+.count button:hover { color: #1A1A18; }
+.sec {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; margin: 32px 0 4px;
+}
+label.row {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 13px 0; border-bottom: 1px solid #E6E3DD; cursor: pointer;
+}
+label.row input {
+  appearance: none; flex: 0 0 auto; width: 19px; height: 19px;
+  margin: 3px 0 0; border: 1.5px solid #B4B0A8; border-radius: 2px;
+  background: transparent; cursor: pointer; position: relative;
+}
+label.row input:checked { background: #55684F; border-color: #55684F; }
+label.row input:checked::after {
+  content: ""; position: absolute; left: 5.5px; top: 1.5px;
+  width: 4px; height: 9px; border: solid #fff;
+  border-width: 0 1.75px 1.75px 0; transform: rotate(45deg);
+}
+.txt { flex: 1 1 auto; min-width: 0; }
+.item { display: block; }
+.amt { display: block; font-size: 13.5px; color: #8C8880; }
+.note { display: block; font-size: 12.5px; color: #B4B0A8; font-style: italic; }
+.price {
+  flex: 0 0 auto; font-size: 13.5px; color: #8C8880;
+  font-variant-numeric: tabular-nums; padding-top: 1px;
+}
+label.row.done .item, label.row.done .amt, label.row.done .price {
+  color: #B4B0A8; text-decoration: line-through;
+  text-decoration-color: #B4B0A8;
+}
+label.row.done .note { opacity: .55; }
+
+.totals { margin-top: 36px; border-top: 1.5px solid #1A1A18; padding-top: 4px; }
+.totals div {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 9px 0; border-bottom: 1px solid #E6E3DD; font-size: 14px;
+}
+.totals div:last-child { border-bottom: 0; font-weight: 500; color: #1A1A18; }
+.totals span:first-child { color: #8C8880; }
+.totals span:last-child { font-variant-numeric: tabular-nums; }
+.totals div:last-child span { color: #1A1A18; }
+
+/* ---- recipes ---- */
+h2 { font-size: 23px; font-weight: 500; letter-spacing: -0.3px; margin: 0 0 8px; line-height: 1.25; }
+.rmeta {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 1.3px;
+  color: #8C8880; margin: 0 0 30px;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+h3 {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; font-weight: 400; margin: 34px 0 2px;
+}
+ul.ing { list-style: none; padding: 0; margin: 0; }
+ul.ing li { padding: 10px 0; border-bottom: 1px solid #E6E3DD; }
+ol.method { padding-left: 22px; margin: 8px 0 0; }
+ol.method li { padding: 7px 0; }
+ol.method li::marker { color: #B4B0A8; font-size: 13px; }
+.notes {
+  margin: 30px 0 0; padding: 18px 0 0; border-top: 1px solid #E6E3DD;
+  font-size: 14px; color: #8C8880;
+}
+.notes b { color: #1A1A18; font-weight: 500; }
+.empty { color: #8C8880; font-style: italic; }
+
+/* ---- footer / archive ---- */
+.foot {
+  margin-top: 60px; padding-top: 16px; border-top: 1px solid #E6E3DD;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+}
+.foot a { color: #8C8880; text-decoration: none; border-bottom: 1px solid #E6E3DD; }
+.foot a:hover { color: #1A1A18; }
+.week { padding: 20px 0; border-bottom: 1px solid #E6E3DD; }
+.week a { font-size: 19px; color: #1A1A18; text-decoration: none; font-weight: 500; }
+.week a:hover { color: #55684F; }
+.week p { margin: 5px 0 0; color: #8C8880; font-size: 14.5px; }
+
+@media (max-width: 480px) {
+  .wrap { padding: 30px 17px 70px; }
+  h1 { font-size: 26px; }
+  nav.tabs button { font-size: 10px; letter-spacing: 1px; }
+  .price { font-size: 13px; }
+}
+</style>
+</head><body data-week="2026-11-09"><div class="wrap">
+
+<p class="mast">Meal prep</p>
+<h1>Week of November 9</h1>
+<p class="opening">Peanut Butter and Cocoa Overnight Oats comes back after seven weeks off, the longest-rested entry in the library, alongside a black-eyed pea and collard salad with cornbread and, for the first time ever, the Red Lentil and Coconut Dal with Sweet Potato. Collards are at their best in the Northeast after the first frosts, sweet potatoes and storage onions are the November staples, and spinach is still a cool-season green, so every vegetable here is in its own month. Separation is clean on all three axes: oats, cornbread and brown rice for grains; dairy-and-powder, black-eyed pea (Vigna unguiculata) and red lentil (Lens culinaris) for protein; American, Southern US and Sri Lankan for flavour. Protein lands at 145g a day — 86g from the meals plus the 40g shake and about 19g of Greek yogurt with dinner — and fibre at about 36g, back in a sane band after last week&#x27;s 70g. Recipe ingredients come to $51.61 on the till against the $55 ceiling, a $3.39 margin. The priciest row is two bunches of collards at $4.94, and nothing was cut to make the number.</p>
+<p class="meta"><span>Protein <b>145g/day</b></span><span>Fibre <b>36g/day</b></span><span>Till <b>$51.61</b></span><span>Recurring <b>$37.47</b></span></p>
+<details class="prep"><summary>Prep order</summary><ol>
+<li>Rice cooker on first with the brown rice and 4 1/2 cups (1.07L) of water. That is 40 to 45 minutes of passive time and everything below fits inside it.</li>
+<li>Black-eyed peas into a pot of cold water next and bring them to a boil. No overnight soak this week, which is the one real win over last week; they want 45 to 55 minutes mostly unattended.</li>
+<li>Oven to 400°F (200°C). While the peas boil, mix and bake the cornbread (25 minutes) and build the six oat jars on the counter, which needs no heat at all.</li>
+<li>Dal last, in the 25 minutes the peas are finishing: sweat, spice, simmer, spinach. Then strip and massage the collards, dress the salad and portion everything.</li>
+<li>Total active time about 1h45 against the 2.5 hour ceiling.</li>
+</ol></details>
+<nav class="tabs" role="tablist">
+<button role="tab" data-tab="groceries" aria-selected="false" aria-controls="panel-groceries">Groceries</button>
+<button role="tab" data-tab="breakfast" aria-selected="false" aria-controls="panel-breakfast">Breakfast</button>
+<button role="tab" data-tab="lunch" aria-selected="false" aria-controls="panel-lunch">Lunch</button>
+<button role="tab" data-tab="dinner" aria-selected="false" aria-controls="panel-dinner">Dinner</button>
+</nav>
+<section role="tabpanel" id="panel-groceries" hidden>
+<div class="count"><span id="count"></span><button id="reset" type="button">Uncheck all</button></div>
+<p class="sec">Produce</p>
+<label class="row"><input type="checkbox" value="produce-collard-greens"><span class="txt"><span class="item">Collard greens</span><span class="amt">2 bunches / about 1.5 lb (680g)</span><span class="note">The most expensive row of the week. One bunch would save $2.47 and still work, but halves the greens.</span></span><span class="price">$4.94</span></label>
+<label class="row"><input type="checkbox" value="produce-baby-spinach"><span class="txt"><span class="item">Baby spinach</span><span class="amt">1 bag, 8–10 oz (225–280g)</span><span class="note">Wilted into the dal at the end — this is the week&#x27;s leafy green, which last week did not have.</span></span><span class="price">$3.20</span></label>
+<label class="row"><input type="checkbox" value="produce-sweet-potatoes"><span class="txt"><span class="item">Sweet potatoes</span><span class="amt">2 lb (900g)</span></span><span class="price">$2.80</span></label>
+<label class="row"><input type="checkbox" value="produce-roma-tomatoes"><span class="txt"><span class="item">Roma tomatoes</span><span class="amt">6 / about 1.3 lb (600g)</span><span class="note">Romas, not cherries — raw in a cold salad, romas are $1.97 cheaper for the same job.</span></span><span class="price">$1.74</span></label>
+<label class="row"><input type="checkbox" value="produce-yellow-onions"><span class="txt"><span class="item">Yellow onions</span><span class="amt">2 medium</span><span class="note">Storage onions at their Northeast autumn peak.</span></span><span class="price">$1.76</span></label>
+<label class="row"><input type="checkbox" value="produce-red-onion"><span class="txt"><span class="item">Red onion</span><span class="amt">1 medium</span><span class="note">Sliced thin, raw, into the salad.</span></span><span class="price">$1.19</span></label>
+<label class="row"><input type="checkbox" value="produce-jalape-os"><span class="txt"><span class="item">Jalapeños</span><span class="amt">2</span><span class="note">Seeds in. Seventh consecutive week as the heat source — nothing jarred.</span></span><span class="price">$0.98</span></label>
+<label class="row"><input type="checkbox" value="produce-garlic"><span class="txt"><span class="item">Garlic</span><span class="amt">1 head</span><span class="note">Covers the dal and the salad dressing.</span></span><span class="price">$0.90</span></label>
+<label class="row"><input type="checkbox" value="produce-fresh-ginger-root"><span class="txt"><span class="item">Fresh ginger root</span><span class="amt">1 small piece, about 4 oz (115g)</span><span class="note">Smallest piece on the shelf.</span></span><span class="price">$0.99</span></label>
+<label class="row"><input type="checkbox" value="produce-cilantro"><span class="txt"><span class="item">Cilantro</span><span class="amt">1 bunch</span><span class="note">The week&#x27;s one soft-herb bunch.</span></span><span class="price">$1.00</span></label>
+<label class="row"><input type="checkbox" value="produce-lemon"><span class="txt"><span class="item">Lemon</span><span class="amt">1</span><span class="note">Half into the collard massage, half into the dressing.</span></span><span class="price">$0.80</span></label>
+<p class="sec">Pantry</p>
+<label class="row"><input type="checkbox" value="pantry-black-eyed-peas-dried-great-value"><span class="txt"><span class="item">Black-eyed peas, dried (Great Value)</span><span class="amt">1 lb bag (454g)</span><span class="note">75g dry a serving — 450g of the 454g bag, exact. No soak needed.</span></span><span class="price">$1.67</span></label>
+<label class="row"><input type="checkbox" value="pantry-red-lentils-dried-great-value"><span class="txt"><span class="item">Red lentils, dried (Great Value)</span><span class="amt">1 lb bag (454g)</span><span class="note">75g dry a serving, exact again. One bag, not two — see the dal notes.</span></span><span class="price">$2.15</span></label>
+<label class="row"><input type="checkbox" value="pantry-brown-rice-great-value"><span class="txt"><span class="item">Brown rice (Great Value)</span><span class="amt">2 lb bag (900g)</span><span class="note">The settled stand-in for basmati; sixth use. 360g used, the rest keeps.</span></span><span class="price">$2.50</span></label>
+<label class="row"><input type="checkbox" value="pantry-coconut-milk-great-value"><span class="txt"><span class="item">Coconut milk (Great Value)</span><span class="amt">2 cans, 13.5 fl oz (400ml) each</span><span class="note">Both cans into the dal.</span></span><span class="price">$4.36</span></label>
+<label class="row"><input type="checkbox" value="pantry-rolled-oats-old-fashioned-great-value"><span class="txt"><span class="item">Rolled oats, old fashioned (Great Value)</span><span class="amt">42 oz tub (1.19kg)</span><span class="note">Check pantry — the tub bought on Nov 2 should have about 890g left, which covers this week. Priced on the till anyway, per the budget rule.</span></span><span class="price">$4.18</span></label>
+<label class="row"><input type="checkbox" value="pantry-unsweetened-cocoa-powder-great-value"><span class="txt"><span class="item">Unsweetened cocoa powder (Great Value)</span><span class="amt">8 oz tub (227g)</span><span class="note">Uses 36g, so roughly six cocoa weeks in the tub. Priciest single package this week.</span></span><span class="price">$4.24</span></label>
+<label class="row"><input type="checkbox" value="pantry-peanut-butter-creamy-great-value"><span class="txt"><span class="item">Peanut butter, creamy (Great Value)</span><span class="amt">16 oz jar (454g)</span><span class="note">The week&#x27;s one nut allowance, and the cheapest one ever spent. Uses 90g.</span></span><span class="price">$1.98</span></label>
+<label class="row"><input type="checkbox" value="pantry-corn-muffin-mix-jiffy"><span class="txt"><span class="item">Corn muffin mix, Jiffy</span><span class="amt">2 boxes, 8.5 oz (241g) each</span><span class="note">Two boxes, not one — that is what gets the cornbread carrying real protein.</span></span><span class="price">$1.54</span></label>
+<label class="row"><input type="checkbox" value="pantry-vegetable-oil-great-value"><span class="txt"><span class="item">Vegetable oil (Great Value)</span><span class="amt">48 fl oz (1.4L)</span><span class="note">Check pantry — the Oct 16 bottle is still most of the way full. Priced on the till anyway.</span></span><span class="price">$3.74</span></label>
+<p class="sec">Dairy</p>
+<label class="row"><input type="checkbox" value="dairy-greek-yogurt-plain-great-value"><span class="txt"><span class="item">Greek yogurt, plain (Great Value)</span><span class="amt">1 tub, 32 oz (900g)</span><span class="note">This is the oat tub: 720g into the jars, the rest thinned to stand in for milk in the cornbread. The dinner tub is under Staples.</span></span><span class="price">$3.28</span></label>
+<label class="row"><input type="checkbox" value="dairy-eggs-large-great-value"><span class="txt"><span class="item">Eggs, large (Great Value)</span><span class="amt">1 dozen</span><span class="note">Two for the cornbread; the rest keep. Smallest pack sold.</span></span><span class="price">$1.67</span></label>
+<p class="sec">Spices</p>
+<label class="row"><input type="checkbox" value="spices-no-new-spices-this-week"><span class="txt"><span class="item">No new spices this week</span><span class="amt">—</span><span class="note">Turmeric, cumin, curry powder, cayenne, cinnamon, smoked paprika and red pepper flakes are all on the owned list. Cayenne is in two of three recipes for the fifth week running — glance at the jar before you leave.</span></span><span class="price">$0.00</span></label>
+<p class="sec">Staples</p>
+<label class="row"><input type="checkbox" value="staples-bananas"><span class="txt"><span class="item">Bananas</span><span class="amt">1 bunch</span></span><span class="price">$1.50</span></label>
+<label class="row"><input type="checkbox" value="staples-bagels"><span class="txt"><span class="item">Bagels</span><span class="amt">6 pack</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="staples-cream-cheese"><span class="txt"><span class="item">Cream cheese</span><span class="amt">8 oz (225g)</span></span><span class="price">$2.50</span></label>
+<label class="row"><input type="checkbox" value="staples-pineapple-juice"><span class="txt"><span class="item">Pineapple juice</span><span class="amt">46 fl oz (1.4L)</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="staples-cranberry-juice"><span class="txt"><span class="item">Cranberry juice</span><span class="amt">64 fl oz (1.9L)</span></span><span class="price">$3.50</span></label>
+<label class="row"><input type="checkbox" value="staples-greek-yogurt-plain-great-value"><span class="txt"><span class="item">Greek yogurt, plain (Great Value)</span><span class="amt">1 tub, 32 oz (900g)</span><span class="note">The second tub — six 180g portions alongside dinner. Two tubs cover the week&#x27;s 1,800g.</span></span><span class="price">$3.28</span></label>
+<div class="totals">
+<div><span>Recipe ingredients — till</span><span>$51.61</span></div>
+<div><span>Recipe ingredients — recurring</span><span>$37.47</span></div>
+<div><span>Standing staples</span><span>$16.78</span></div>
+<div><span>Combined weekly — till</span><span>$68.39</span></div>
+</div>
+</section>
+<section role="tabpanel" id="panel-breakfast" hidden>
+<h2>Peanut Butter and Cocoa Overnight Oats</h2>
+<p class="rmeta"><span>6 servings</span><span>12 min active</span><span>32g protein</span><span>7g fibre</span><span>American</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Rolled oats, old fashioned, 3 1/3 cups (300g)</li>
+<li>Plain Greek yogurt, 3 cups (720g)</li>
+<li>Protein powder, 3 scoops (about 90g) — from the tub you already own, not on the grocery list</li>
+<li>Peanut butter, creamy, 6 tbsp (90g)</li>
+<li>Unsweetened cocoa powder, 6 tbsp (36g)</li>
+<li>Water or milk, 2 cups (480ml)</li>
+<li>Ground cinnamon, 1 tsp</li>
+<li>Salt, 1/2 tsp</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Whisk the protein powder into the 480ml of water in a jug first, until no lumps remain. This is step one every oats week for a reason: powder stirred straight into yogurt clumps irreversibly and will not come apart.</li>
+<li>Whisk the cocoa powder and the salt into that same liquid while it is still thin, so the cocoa hydrates instead of sitting on top as dust.</li>
+<li>Fold the Greek yogurt into the cocoa liquid in a large bowl, then stir in the oats and the cinnamon until everything is evenly dark.</li>
+<li>Divide between six jars, about 240g each, and drop a level tablespoon of peanut butter into each. Stir it through or leave it as a seam — either holds.</li>
+<li>Lid them and refrigerate. They are ready the next morning and good through day six.</li>
+</ol>
+<p class="notes">32g protein and about 7g fibre per serving. Eaten cold straight from the jar with no day-of step. Both the cocoa and the peanut butter deepen over the week rather than fading. Longest-rested recipe in the library — last cooked the week of Sep 21.</p>
+</section>
+<section role="tabpanel" id="panel-lunch" hidden>
+<h2>Black-Eyed Pea and Collard Salad with Cornbread</h2>
+<p class="rmeta"><span>6 servings</span><span>45 min active</span><span>27g protein</span><span>13g fibre</span><span>Southern US</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Black-eyed peas, dried, 1 lb (450g)</li>
+<li>Collard greens, 2 bunches, about 1.5 lb (680g)</li>
+<li>Roma tomatoes, 6</li>
+<li>Red onion, 1 medium</li>
+<li>Lemon, 1</li>
+<li>Garlic, 3 cloves</li>
+<li>Vegetable oil, 6 tbsp (90ml)</li>
+<li>Red pepper flakes, 2 tsp</li>
+<li>Smoked paprika, 2 tsp</li>
+<li>Cayenne, 1 tsp</li>
+<li>Salt and black pepper</li>
+<li>Corn muffin mix, Jiffy, 2 boxes (482g)</li>
+<li>Eggs, 2</li>
+<li>Plain Greek yogurt thinned with water, 2/3 cup (160ml), standing in for milk</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Rinse the black-eyed peas and cover them with cold water by three inches. They need no soak. Bring to a boil, then simmer 45 to 55 minutes until tender but not collapsing, salting only in the last ten minutes. Drain and spread them out to cool.</li>
+<li>Heat the oven to 400°F (200°C). Stir the two boxes of muffin mix together with the two eggs and the thinned yogurt, pour into a greased 8-inch square pan and bake 25 to 28 minutes until a skewer comes out clean. Cool completely before cutting into six squares.</li>
+<li>Strip the collard leaves off their ribs, stack them and shred into thin ribbons. Massage them with 2 tbsp of the oil, the juice of half the lemon and a good pinch of salt until they darken and soften — two full minutes of real hand work, and it is what lets them hold six days.</li>
+<li>Whisk the remaining oil with the rest of the lemon, the grated garlic, red pepper flakes, smoked paprika and cayenne.</li>
+<li>Dice the tomatoes and slice the red onion thin. Toss everything with the cooled peas and the dressing, taste hard for salt and acid, and divide into six containers.</li>
+<li>Store the cornbread separately in a bag or box so it does not go soggy against the dressing.</li>
+</ol>
+<p class="notes">27g protein and about 13g fibre per serving. Eaten cold, no reheating. Massaged collards are the only green that survives six days dressed; a tender leaf would be slime by Wednesday. Cornbread stored apart — good at room temperature, or 15 seconds in the microwave.</p>
+</section>
+<section role="tabpanel" id="panel-dinner" hidden>
+<h2>Red Lentil and Coconut Dal with Sweet Potato</h2>
+<p class="rmeta"><span>6 servings</span><span>35 min active</span><span>27g protein</span><span>15g fibre</span><span>Sri Lankan</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Red lentils, dried, 1 lb (450g)</li>
+<li>Brown rice, 2 cups (360g) dry</li>
+<li>Coconut milk, 2 cans (800ml)</li>
+<li>Sweet potatoes, 2 lb (900g)</li>
+<li>Baby spinach, 8–10 oz (225–280g)</li>
+<li>Yellow onions, 2 medium</li>
+<li>Garlic, 5 cloves</li>
+<li>Fresh ginger, 2 tbsp grated (30g)</li>
+<li>Jalapeños, 2, seeds in</li>
+<li>Cilantro, 1 bunch</li>
+<li>Vegetable oil, 3 tbsp</li>
+<li>Curry powder, 2 tbsp · turmeric, 2 tsp · cumin, 2 tsp · cayenne, 1 1/2 tsp · ground cinnamon, 1/2 tsp</li>
+<li>Salt</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Put the brown rice in the rice cooker with 4 1/2 cups (1.07L) of water and start it. Everything below fits inside its 40 to 45 minutes.</li>
+<li>Rinse the red lentils until the water runs clear — three or four changes.</li>
+<li>Heat the oil in a large pot and sweat the diced onion with a good pinch of salt for 8 minutes, until soft and just turning gold. Add the grated ginger, the garlic and the jalapeños sliced with their seeds in, and cook 2 minutes more.</li>
+<li>Add the curry powder, turmeric, cumin, cayenne and cinnamon and fry them in the oil for 45 seconds, until they smell toasted rather than raw. This is the step that separates a good dal from a dusty one.</li>
+<li>Add the lentils, the sweet potato peeled and cut into 3/4-inch (2cm) cubes, both cans of coconut milk and 3 cups (700ml) of water. Bring to a boil, then simmer 22 to 25 minutes, stirring now and then, until the lentils have collapsed and the sweet potato is tender to a fork.</li>
+<li>Stir the spinach through in handfuls off the heat until it wilts, then the chopped cilantro. Salt hard — a coconut dal takes more than you expect. Portion over the rice into six containers.</li>
+</ol>
+<p class="notes">27g protein and about 15g fibre per serving — the sweet potato, coconut and spinach carry what bulgur or pasta would, which is why 75g of dry lentil clears the target here even over rice. Microwave 3 minutes covered with a splash of water, stirring halfway; it thickens as it sits and by day four the splash is not optional. Cilantro is stirred in on prep day rather than at serving, so there is no day-of step anywhere this week — it mellows, and that is the accepted trade. Heat climbs over the week from the jalapeño seeds and the cayenne. First cook of this recipe.</p>
+</section>
+<div class="foot"><a href="../archive.html">Past weeks</a></div>
+</div><script>
+(function () {
+  var KEY = document.body.dataset.week;
+  var tabs = [].slice.call(document.querySelectorAll('nav.tabs button'));
+  var panels = [].slice.call(document.querySelectorAll('section[role=tabpanel]'));
+
+  var nav = document.querySelector('nav.tabs');
+
+  function show(name, fromClick) {
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-selected', String(t.dataset.tab === name));
+    });
+    panels.forEach(function (p) { p.hidden = p.id !== 'panel-' + name; });
+    if (fromClick) {
+      if (history.replaceState) history.replaceState(null, '', '#' + name);
+      // Park the tab bar at the top rather than jumping to the page top —
+      // otherwise every tab switch means scrolling past the header again.
+      nav.scrollIntoView({ block: 'start' });
+    }
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { show(t.dataset.tab, true); });
+  });
+
+  // --- grocery ticks, remembered per week ---
+  var boxes = [].slice.call(document.querySelectorAll('label.row input'));
+  var counter = document.getElementById('count');
+
+  function store(k, v) {
+    try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); }
+    catch (e) { /* private mode: ticks work, they just don't persist */ }
+  }
+  function load(k) {
+    try { return localStorage.getItem(k); } catch (e) { return null; }
+  }
+  function tally() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    if (counter) {
+      counter.textContent = n + ' of ' + boxes.length +
+        (n === boxes.length && boxes.length ? ' — done' : ' picked up');
+    }
+  }
+  boxes.forEach(function (b) {
+    var k = 'bory:' + KEY + ':' + b.value;
+    if (load(k) === '1') { b.checked = true; }
+    b.closest('label').classList.toggle('done', b.checked);
+    b.addEventListener('change', function () {
+      b.closest('label').classList.toggle('done', b.checked);
+      store(k, b.checked ? '1' : null);
+      tally();
+    });
+  });
+  tally();
+
+  var reset = document.getElementById('reset');
+  if (reset) reset.addEventListener('click', function () {
+    boxes.forEach(function (b) {
+      b.checked = false;
+      b.closest('label').classList.remove('done');
+      store('bory:' + KEY + ':' + b.value, null);
+    });
+    tally();
+  });
+
+  var initial = (location.hash || '').replace('#', '');
+  show(tabs.some(function (t) { return t.dataset.tab === initial; })
+       ? initial : 'groceries', false);
+})();
+</script></body></html>
