@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bory">
+<meta name="theme-color" content="#FCFBF9">
+<link rel="apple-touch-icon" href="../icon.png">
+<title>Bory — Week of November 23</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: #FCFBF9; color: #1A1A18;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6;
+  font-weight: 400; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 620px; margin: 0 auto; padding: 40px 22px 80px; }
+
+/* ---- header ---- */
+.mast {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 2.4px;
+  color: #8C8880; margin: 0 0 26px;
+}
+h1 {
+  font-size: 30px; font-weight: 500; letter-spacing: -0.4px;
+  line-height: 1.2; margin: 0 0 14px;
+}
+.opening { color: #1A1A18; margin: 0; max-width: 52ch; }
+.meta {
+  font-size: 13px; color: #8C8880; margin: 18px 0 0;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+.meta b { font-weight: 500; color: #1A1A18; }
+
+details.prep { margin: 26px 0 0; border-top: 1px solid #E6E3DD; }
+details.prep summary {
+  cursor: pointer; list-style: none; padding: 14px 0;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.6px;
+  color: #8C8880;
+}
+details.prep summary::-webkit-details-marker { display: none; }
+details.prep summary::after { content: " +"; color: #B4B0A8; }
+details.prep[open] summary::after { content: " \2212"; }
+details.prep ol { margin: 0 0 20px; padding-left: 20px; color: #1A1A18; }
+details.prep li { margin-bottom: 8px; }
+
+/* ---- tabs ---- */
+nav.tabs {
+  position: sticky; top: 0; z-index: 10; background: #FCFBF9;
+  display: flex; gap: 2px; margin: 30px 0 0;
+  border-bottom: 1px solid #E6E3DD;
+}
+nav.tabs button {
+  flex: 1; appearance: none; background: none; border: 0;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  font-family: inherit; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1.4px; color: #8C8880; cursor: pointer;
+  padding: 15px 2px 12px; min-height: 46px;
+}
+nav.tabs button[aria-selected="true"] {
+  color: #1A1A18; border-bottom-color: #55684F;
+}
+section[role="tabpanel"] { padding-top: 30px; }
+section[hidden] { display: none; }
+
+/* ---- groceries ---- */
+.count {
+  font-size: 12px; color: #8C8880; display: flex;
+  justify-content: space-between; align-items: baseline;
+  padding-bottom: 14px; border-bottom: 1px solid #E6E3DD;
+}
+.count button {
+  appearance: none; background: none; border: 0; padding: 4px 0;
+  font-family: inherit; font-size: 12px; color: #8C8880;
+  cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px; text-decoration-color: #E6E3DD;
+}
+.count button:hover { color: #1A1A18; }
+.sec {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; margin: 32px 0 4px;
+}
+label.row {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 13px 0; border-bottom: 1px solid #E6E3DD; cursor: pointer;
+}
+label.row input {
+  appearance: none; flex: 0 0 auto; width: 19px; height: 19px;
+  margin: 3px 0 0; border: 1.5px solid #B4B0A8; border-radius: 2px;
+  background: transparent; cursor: pointer; position: relative;
+}
+label.row input:checked { background: #55684F; border-color: #55684F; }
+label.row input:checked::after {
+  content: ""; position: absolute; left: 5.5px; top: 1.5px;
+  width: 4px; height: 9px; border: solid #fff;
+  border-width: 0 1.75px 1.75px 0; transform: rotate(45deg);
+}
+.txt { flex: 1 1 auto; min-width: 0; }
+.item { display: block; }
+.amt { display: block; font-size: 13.5px; color: #8C8880; }
+.note { display: block; font-size: 12.5px; color: #B4B0A8; font-style: italic; }
+.price {
+  flex: 0 0 auto; font-size: 13.5px; color: #8C8880;
+  font-variant-numeric: tabular-nums; padding-top: 1px;
+}
+label.row.done .item, label.row.done .amt, label.row.done .price {
+  color: #B4B0A8; text-decoration: line-through;
+  text-decoration-color: #B4B0A8;
+}
+label.row.done .note { opacity: .55; }
+
+.totals { margin-top: 36px; border-top: 1.5px solid #1A1A18; padding-top: 4px; }
+.totals div {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 9px 0; border-bottom: 1px solid #E6E3DD; font-size: 14px;
+}
+.totals div:last-child { border-bottom: 0; font-weight: 500; color: #1A1A18; }
+.totals span:first-child { color: #8C8880; }
+.totals span:last-child { font-variant-numeric: tabular-nums; }
+.totals div:last-child span { color: #1A1A18; }
+
+/* ---- recipes ---- */
+h2 { font-size: 23px; font-weight: 500; letter-spacing: -0.3px; margin: 0 0 8px; line-height: 1.25; }
+.rmeta {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 1.3px;
+  color: #8C8880; margin: 0 0 30px;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+h3 {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; font-weight: 400; margin: 34px 0 2px;
+}
+ul.ing { list-style: none; padding: 0; margin: 0; }
+ul.ing li { padding: 10px 0; border-bottom: 1px solid #E6E3DD; }
+ol.method { padding-left: 22px; margin: 8px 0 0; }
+ol.method li { padding: 7px 0; }
+ol.method li::marker { color: #B4B0A8; font-size: 13px; }
+.notes {
+  margin: 30px 0 0; padding: 18px 0 0; border-top: 1px solid #E6E3DD;
+  font-size: 14px; color: #8C8880;
+}
+.notes b { color: #1A1A18; font-weight: 500; }
+.empty { color: #8C8880; font-style: italic; }
+
+/* ---- footer / archive ---- */
+.foot {
+  margin-top: 60px; padding-top: 16px; border-top: 1px solid #E6E3DD;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+}
+.foot a { color: #8C8880; text-decoration: none; border-bottom: 1px solid #E6E3DD; }
+.foot a:hover { color: #1A1A18; }
+.week { padding: 20px 0; border-bottom: 1px solid #E6E3DD; }
+.week a { font-size: 19px; color: #1A1A18; text-decoration: none; font-weight: 500; }
+.week a:hover { color: #55684F; }
+.week p { margin: 5px 0 0; color: #8C8880; font-size: 14.5px; }
+
+@media (max-width: 480px) {
+  .wrap { padding: 30px 17px 70px; }
+  h1 { font-size: 26px; }
+  nav.tabs button { font-size: 10px; letter-spacing: 1px; }
+  .price { font-size: 13px; }
+}
+</style>
+</head><body data-week="2026-11-23"><div class="wrap">
+
+<p class="mast">Meal prep</p>
+<h1>Week of November 23</h1>
+<p class="opening">Eggplant and Lentil Moussaka finally gets cooked — it has sat in the library since August, was unblocked when russet potatoes were priced on Nov 9, and was passed over last week for the jambalaya. It is the right dish for a cold week: an oven bake of roasted eggplant and potato over a cinnamon-spiced lentil sauce under a béchamel, with russets, storage onions and garlic all at their Northeast November best. Around it sit Cinnamon Roll Overnight Oats, the longest-rested breakfast on the board at six weeks, and a Huevos Rancheros Grain Bowl. The three share nothing: rolled oats against brown rice against a potato layer, Greek yogurt against eggs and black beans (Phaseolus vulgaris) against brown lentils (Lens culinaris), American against Mexican against Greek. Meals supply 88g of protein against the 81g the rules ask for, plus the 40g shake and about 19g of Greek yogurt with dinner — 147g a day. No expensive-aisle item at all this week, which is the shape that has bought the widest margins on record: recipe ingredients land at $50.98 against the $55 ceiling, $4.02 clear, with nothing cut to make budget. The most expensive line is three purple eggplants at $4.98, re-verified today at $1.66/lb — unchanged from September, so no out-of-season premium.</p>
+<p class="meta"><span>Protein <b>147g/day</b></span><span>Fibre <b>48g/day</b></span><span>Till <b>$50.98</b></span><span>Recurring <b>$39.64</b></span></p>
+<details class="prep"><summary>Prep order</summary><ol>
+<li>The night before: soak the black beans in plenty of cold water. It is the week&#x27;s only overnight step and costs counter space, not time.</li>
+<li>Rice cooker on first with the brown rice. Drain the beans and set them boiling with half an onion and two garlic cloves — 45 to 55 minutes, unattended.</li>
+<li>Oven to 400°F (200°C). Slice, oil and salt the eggplant and potatoes and roast them on two trays for 25 minutes while the lentil sauce simmers on the stovetop.</li>
+<li>Make the béchamel, layer the moussaka and bake it 35 to 40 minutes. In that window boil and cool the eggs, build the six oat jars and pack the six bowls. Total active time: about 1h50.</li>
+</ol></details>
+<nav class="tabs" role="tablist">
+<button role="tab" data-tab="groceries" aria-selected="false" aria-controls="panel-groceries">Groceries</button>
+<button role="tab" data-tab="breakfast" aria-selected="false" aria-controls="panel-breakfast">Breakfast</button>
+<button role="tab" data-tab="lunch" aria-selected="false" aria-controls="panel-lunch">Lunch</button>
+<button role="tab" data-tab="dinner" aria-selected="false" aria-controls="panel-dinner">Dinner</button>
+</nav>
+<section role="tabpanel" id="panel-groceries" hidden>
+<div class="count"><span id="count"></span><button id="reset" type="button">Uncheck all</button></div>
+<p class="sec">Produce</p>
+<label class="row"><input type="checkbox" value="produce-purple-eggplant"><span class="txt"><span class="item">Purple eggplant</span><span class="amt">3 medium / about 3 lb (1.4kg)</span><span class="note">Priced by weight at $1.66/lb, re-verified 2026-11-20 — the week&#x27;s most expensive line</span></span><span class="price">$4.98</span></label>
+<label class="row"><input type="checkbox" value="produce-russet-potatoes"><span class="txt"><span class="item">Russet potatoes</span><span class="amt">5 lb bag (2.3kg); about 1.5 lb (700g) used</span><span class="note">Smallest bag sold, so the whole bag is the cost</span></span><span class="price">$3.57</span></label>
+<label class="row"><input type="checkbox" value="produce-yellow-onion"><span class="txt"><span class="item">Yellow onion</span><span class="amt">4 medium, loose</span><span class="note">Two into each main</span></span><span class="price">$3.52</span></label>
+<label class="row"><input type="checkbox" value="produce-poblano-peppers"><span class="txt"><span class="item">Poblano peppers</span><span class="amt">16 oz bag, about 4 (450g); 2 used</span></span><span class="price">$3.26</span></label>
+<label class="row"><input type="checkbox" value="produce-jalape-os"><span class="txt"><span class="item">Jalapeños</span><span class="amt">2 each</span><span class="note">Seeds in — the week&#x27;s fresh heat, nothing jarred</span></span><span class="price">$0.98</span></label>
+<label class="row"><input type="checkbox" value="produce-garlic"><span class="txt"><span class="item">Garlic</span><span class="amt">1 head</span><span class="note">One head covers both mains</span></span><span class="price">$0.90</span></label>
+<label class="row"><input type="checkbox" value="produce-cilantro"><span class="txt"><span class="item">Cilantro</span><span class="amt">1 bunch</span><span class="note">The week&#x27;s one soft-herb bunch</span></span><span class="price">$1.00</span></label>
+<label class="row"><input type="checkbox" value="produce-lemon"><span class="txt"><span class="item">Lemon</span><span class="amt">1 each</span><span class="note">Standing in for lime over the bowls</span></span><span class="price">$0.80</span></label>
+<p class="sec">Pantry</p>
+<label class="row"><input type="checkbox" value="pantry-crushed-tomatoes"><span class="txt"><span class="item">Crushed tomatoes</span><span class="amt">4 cans, 15 oz (425g) each</span><span class="note">Two into the salsa roja, two into the lentil sauce — canned is correct for anything cooked</span></span><span class="price">$4.80</span></label>
+<label class="row"><input type="checkbox" value="pantry-rolled-oats-old-fashioned"><span class="txt"><span class="item">Rolled oats, old fashioned</span><span class="amt">42 oz tub (1.19kg); 300g used</span><span class="note">Check pantry — the Nov 2 tub is down to roughly 290g against the 300g needed, so this is likely a genuine buy</span></span><span class="price">$4.18</span></label>
+<label class="row"><input type="checkbox" value="pantry-vegetable-oil"><span class="txt"><span class="item">Vegetable oil</span><span class="amt">48 fl oz (1.4L); about 150ml used</span><span class="note">Check pantry — the roasting and the roux both draw on it</span></span><span class="price">$3.74</span></label>
+<label class="row"><input type="checkbox" value="pantry-brown-rice"><span class="txt"><span class="item">Brown rice</span><span class="amt">2 lb bag (907g); 330g used</span><span class="note">The settled stand-in, eighth use</span></span><span class="price">$2.50</span></label>
+<label class="row"><input type="checkbox" value="pantry-brown-lentils-dried"><span class="txt"><span class="item">Brown lentils, dried</span><span class="amt">1 lb bag (454g); 450g used</span><span class="note">The whole bag, 75g dry a serving, 4g spare</span></span><span class="price">$1.92</span></label>
+<label class="row"><input type="checkbox" value="pantry-light-brown-sugar"><span class="txt"><span class="item">Light brown sugar</span><span class="amt">32 oz (907g); 100g used</span><span class="note">Check pantry — the cheapest sweetener in the file and why no honey is needed</span></span><span class="price">$1.98</span></label>
+<label class="row"><input type="checkbox" value="pantry-black-beans-dried"><span class="txt"><span class="item">Black beans, dried</span><span class="amt">1 lb bag (454g); 240g used</span></span><span class="price">$1.50</span></label>
+<label class="row"><input type="checkbox" value="pantry-all-purpose-flour"><span class="txt"><span class="item">All-purpose flour</span><span class="amt">2 lb bag (907g); 45g used</span><span class="note">Check pantry — for the béchamel roux</span></span><span class="price">$1.44</span></label>
+<p class="sec">Dairy</p>
+<label class="row"><input type="checkbox" value="dairy-greek-yogurt-plain"><span class="txt"><span class="item">Greek yogurt, plain</span><span class="amt">32 oz tub (907g); 720g to the oats</span><span class="note">The oats tub. The second tub, for the dinner portions, is under Staples</span></span><span class="price">$3.28</span></label>
+<label class="row"><input type="checkbox" value="dairy-parmesan-grated"><span class="txt"><span class="item">Parmesan, grated</span><span class="amt">8 oz shaker (227g); 80g used</span><span class="note">Topping only, for the browned crust. With the milk it is $4.96 of cheese and dairy beyond the standing yogurt, $3.04 under the cap</span></span><span class="price">$3.12</span></label>
+<label class="row"><input type="checkbox" value="dairy-milk-whole"><span class="txt"><span class="item">Milk, whole</span><span class="amt">Half gallon, 64 fl oz (1.89L); 650ml used</span><span class="note">New price line, verified 2026-11-20 — the béchamel is the first thing in this system to need milk</span></span><span class="price">$1.84</span></label>
+<label class="row"><input type="checkbox" value="dairy-eggs-large"><span class="txt"><span class="item">Eggs, large</span><span class="amt">1 dozen</span><span class="note">Two a serving, boiled in the shell</span></span><span class="price">$1.67</span></label>
+<p class="sec">Spices</p>
+<label class="row"><input type="checkbox" value="spices-ground-cinnamon-dried-oregano-cumin-chili"><span class="txt"><span class="item">Ground cinnamon, dried oregano, cumin, chili powder, smoked paprika, cayenne, red pepper flakes, black pepper</span><span class="amt">all owned</span><span class="note">Zero new spices — ninth zero-spice week in twelve. Cayenne is in two of three recipes again and is the jar to glance at before the shop; a replacement is about $2.98</span></span><span class="price">$0.00</span></label>
+<p class="sec">Staples</p>
+<label class="row"><input type="checkbox" value="staples-bananas"><span class="txt"><span class="item">Bananas</span><span class="amt">1 bunch</span></span><span class="price">$1.50</span></label>
+<label class="row"><input type="checkbox" value="staples-bagels"><span class="txt"><span class="item">Bagels</span><span class="amt">6 pack</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="staples-cream-cheese"><span class="txt"><span class="item">Cream cheese</span><span class="amt">8 oz</span></span><span class="price">$2.50</span></label>
+<label class="row"><input type="checkbox" value="staples-pineapple-juice"><span class="txt"><span class="item">Pineapple juice</span><span class="amt">46 oz</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="staples-cranberry-juice"><span class="txt"><span class="item">Cranberry juice</span><span class="amt">64 oz</span></span><span class="price">$3.50</span></label>
+<label class="row"><input type="checkbox" value="staples-greek-yogurt-plain"><span class="txt"><span class="item">Greek yogurt, plain</span><span class="amt">32 oz tub (907g)</span><span class="note">Second tub — the six 180g portions eaten with dinner</span></span><span class="price">$3.28</span></label>
+<div class="totals">
+<div><span>Recipe ingredients — till</span><span>$50.98</span></div>
+<div><span>Recipe ingredients — recurring</span><span>$39.64</span></div>
+<div><span>Standing staples</span><span>$16.78</span></div>
+<div><span>Combined weekly — till</span><span>$67.76</span></div>
+</div>
+</section>
+<section role="tabpanel" id="panel-breakfast" hidden>
+<h2>Cinnamon Roll Overnight Oats</h2>
+<p class="rmeta"><span>6 servings</span><span>10 min active</span><span>29g protein</span><span>5g fibre</span><span>American</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Rolled oats, 1 3/4 cups (300g)</li>
+<li>Plain Greek yogurt, 3 cups (720g)</li>
+<li>Protein powder, 3 scoops (90g) — from the bulk tub, not on the grocery list</li>
+<li>Water, 2 cups (480ml)</li>
+<li>Light brown sugar, 1/2 cup packed (100g)</li>
+<li>Ground cinnamon, 2 tsp</li>
+<li>Salt, a generous pinch</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Whisk the protein powder into the water in a jug first, until no lumps remain. This is step one every oats week, because powder stirred straight into yogurt clumps and will not come back out.</li>
+<li>Stir the Greek yogurt into the thinned powder, then fold in the oats, brown sugar, cinnamon and salt until everything is evenly wet.</li>
+<li>Divide between six jars, seal them and refrigerate overnight. They are ready from the next morning and need nothing further.</li>
+</ol>
+<p class="notes">29g protein and 5g fibre a serving. Holds the full six days in the fridge and is eaten cold straight from the jar — no day-of step at all. The cinnamon deepens over the week rather than fading. Brown sugar rather than honey is deliberate: honey counts against the one expensive-aisle item a week even when it is already in the cupboard, and this week&#x27;s slot is better left empty.</p>
+</section>
+<section role="tabpanel" id="panel-lunch" hidden>
+<h2>Huevos Rancheros Grain Bowl</h2>
+<p class="rmeta"><span>6 servings</span><span>35 min active</span><span>26g protein</span><span>12g fibre</span><span>Mexican</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Eggs, large, 12</li>
+<li>Brown rice, 1 3/4 cups dry (330g)</li>
+<li>Black beans, dried, 1 1/4 cups (240g)</li>
+<li>Crushed tomatoes, 2 cans, 15 oz (425g) each</li>
+<li>Poblano peppers, 2</li>
+<li>Yellow onion, 2 medium</li>
+<li>Garlic, 4 cloves</li>
+<li>Jalapeños, 2, seeds in</li>
+<li>Cilantro, 1 bunch</li>
+<li>Lemon, 1</li>
+<li>Vegetable oil, 3 tbsp (45ml)</li>
+<li>Chili powder, 1 tbsp; cumin, 2 tsp; cayenne, 2 tsp; smoked paprika, 1 tsp; dried oregano, 1 tsp; salt</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Soak the black beans overnight in plenty of cold water. The next day, drain them and boil them with half an onion and two whole garlic cloves for 45 to 55 minutes, until tender but not collapsing, then salt them and drain.</li>
+<li>Put the brown rice in the rice cooker with its usual water and leave it. It needs no attention and will be done long before anything else.</li>
+<li>Dice the remaining onion and the poblanos and fry them in the oil over a good heat until the edges catch, about 8 minutes. Add the chopped garlic and the jalapeños with their seeds and fry one minute more.</li>
+<li>Add the chili powder, cumin, cayenne, smoked paprika and oregano, stir for thirty seconds in the hot oil, then pour in both cans of crushed tomatoes. Simmer 15 to 20 minutes until it is a thick salsa roja rather than a sauce, and salt it well. No blender needed.</li>
+<li>Boil the eggs for 9 minutes, cool them under cold water and leave them in their shells.</li>
+<li>Pack six containers with rice, then beans, then salsa roja. Chop the cilantro and fold it through the salsa on prep day. Keep the eggs together in their shells in a separate box with the lemon.</li>
+</ol>
+<p class="notes">26g protein and 12g fibre a serving. Holds six days; rice, beans and salsa microwave together in 2 minutes. One day-of step, and it is the only one in the week: peel two eggs, halve them onto the hot bowl and squeeze over the lemon. Peeled eggs keep only about four days, which is why they stay in the shell. The heat is two whole jalapeños and 2 tsp of cayenne and it will climb noticeably by day five.</p>
+</section>
+<section role="tabpanel" id="panel-dinner" hidden>
+<h2>Eggplant and Lentil Moussaka Bake</h2>
+<p class="rmeta"><span>6 servings</span><span>1h05 active</span><span>33g protein</span><span>31g fibre</span><span>Greek</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Brown lentils, dried, 2 1/4 cups (450g)</li>
+<li>Purple eggplant, 3 medium, about 3 lb (1.4kg)</li>
+<li>Russet potatoes, about 1.5 lb (700g)</li>
+<li>Crushed tomatoes, 2 cans, 15 oz (425g) each</li>
+<li>Yellow onion, 2 medium</li>
+<li>Garlic, 4 cloves</li>
+<li>Whole milk, 2 3/4 cups (650ml)</li>
+<li>All-purpose flour, 1/3 cup (45g)</li>
+<li>Vegetable oil, 1/2 cup (120ml)</li>
+<li>Grated parmesan, 3/4 cup (80g)</li>
+<li>Ground cinnamon, 1 tsp; dried oregano, 2 tsp; red pepper flakes, 2 tsp; cayenne, 1 1/2 tsp; black pepper; salt</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Heat the oven to 400°F (200°C). Slice the eggplant into rounds about half an inch thick and the potatoes a little thinner. Brush both with oil, salt them and roast on two trays for 25 minutes, until the eggplant is collapsing and the potato is cooked through. Swap the trays halfway if your oven runs uneven.</li>
+<li>While they roast, dice the onions and fry them in 3 tablespoons of the oil until soft and just browning, about 10 minutes. Add the chopped garlic, the cinnamon, oregano, red pepper flakes and cayenne, and stir for a minute.</li>
+<li>Add the rinsed lentils and both cans of crushed tomatoes with a cup of water. Simmer 30 minutes, stirring now and then, until the lentils are tender and the sauce is thick enough to hold a spoon upright. Salt and pepper it hard — this layer carries the whole dish.</li>
+<li>Make the béchamel: heat 4 tablespoons of oil in a saucepan, whisk in the flour and cook it for a minute, then add the milk a splash at a time, whisking, until it is smooth and thick. Season it well.</li>
+<li>Layer a 9x13 dish: potato slices on the bottom, all of the lentil sauce, then the roasted eggplant, then the béchamel poured over and spread flat. Scatter the parmesan on top and bake 35 to 40 minutes, until the top is browned and set.</li>
+<li>Let it stand 20 minutes before cutting it into six squares — cut hot and it slumps. Cool fully before the lids go on.</li>
+</ol>
+<p class="notes">33g protein and 31g fibre a serving. Holds six days and reheats in the microwave in 3 minutes covered, with no loss — a set bake is one of the better things to reheat. No day-of step. The lentils stay at 75g dry a serving even though the potato layer carries almost no protein, because the béchamel and the parmesan top up 9g between them. The parmesan is a topping rather than a structure: 80g across six, enough to brown. The heat here is unorthodox for a moussaka and intentional — it climbs over the week.</p>
+</section>
+<div class="foot"><a href="../archive.html">Past weeks</a></div>
+</div><script>
+(function () {
+  var KEY = document.body.dataset.week;
+  var tabs = [].slice.call(document.querySelectorAll('nav.tabs button'));
+  var panels = [].slice.call(document.querySelectorAll('section[role=tabpanel]'));
+
+  var nav = document.querySelector('nav.tabs');
+
+  function show(name, fromClick) {
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-selected', String(t.dataset.tab === name));
+    });
+    panels.forEach(function (p) { p.hidden = p.id !== 'panel-' + name; });
+    if (fromClick) {
+      if (history.replaceState) history.replaceState(null, '', '#' + name);
+      // Park the tab bar at the top rather than jumping to the page top —
+      // otherwise every tab switch means scrolling past the header again.
+      nav.scrollIntoView({ block: 'start' });
+    }
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { show(t.dataset.tab, true); });
+  });
+
+  // --- grocery ticks, remembered per week ---
+  var boxes = [].slice.call(document.querySelectorAll('label.row input'));
+  var counter = document.getElementById('count');
+
+  function store(k, v) {
+    try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); }
+    catch (e) { /* private mode: ticks work, they just don't persist */ }
+  }
+  function load(k) {
+    try { return localStorage.getItem(k); } catch (e) { return null; }
+  }
+  function tally() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    if (counter) {
+      counter.textContent = n + ' of ' + boxes.length +
+        (n === boxes.length && boxes.length ? ' — done' : ' picked up');
+    }
+  }
+  boxes.forEach(function (b) {
+    var k = 'bory:' + KEY + ':' + b.value;
+    if (load(k) === '1') { b.checked = true; }
+    b.closest('label').classList.toggle('done', b.checked);
+    b.addEventListener('change', function () {
+      b.closest('label').classList.toggle('done', b.checked);
+      store(k, b.checked ? '1' : null);
+      tally();
+    });
+  });
+  tally();
+
+  var reset = document.getElementById('reset');
+  if (reset) reset.addEventListener('click', function () {
+    boxes.forEach(function (b) {
+      b.checked = false;
+      b.closest('label').classList.remove('done');
+      store('bory:' + KEY + ':' + b.value, null);
+    });
+    tally();
+  });
+
+  var initial = (location.hash || '').replace('#', '');
+  show(tabs.some(function (t) { return t.dataset.tab === initial; })
+       ? initial : 'groceries', false);
+})();
+</script></body></html>
