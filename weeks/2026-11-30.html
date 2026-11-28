@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bory">
+<meta name="theme-color" content="#FCFBF9">
+<link rel="apple-touch-icon" href="../icon.png">
+<title>Bory — Week of November 30</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: #FCFBF9; color: #1A1A18;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6;
+  font-weight: 400; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 620px; margin: 0 auto; padding: 40px 22px 80px; }
+
+/* ---- header ---- */
+.mast {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 2.4px;
+  color: #8C8880; margin: 0 0 26px;
+}
+h1 {
+  font-size: 30px; font-weight: 500; letter-spacing: -0.4px;
+  line-height: 1.2; margin: 0 0 14px;
+}
+.opening { color: #1A1A18; margin: 0; max-width: 52ch; }
+.meta {
+  font-size: 13px; color: #8C8880; margin: 18px 0 0;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+.meta b { font-weight: 500; color: #1A1A18; }
+
+details.prep { margin: 26px 0 0; border-top: 1px solid #E6E3DD; }
+details.prep summary {
+  cursor: pointer; list-style: none; padding: 14px 0;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.6px;
+  color: #8C8880;
+}
+details.prep summary::-webkit-details-marker { display: none; }
+details.prep summary::after { content: " +"; color: #B4B0A8; }
+details.prep[open] summary::after { content: " \2212"; }
+details.prep ol { margin: 0 0 20px; padding-left: 20px; color: #1A1A18; }
+details.prep li { margin-bottom: 8px; }
+
+/* ---- tabs ---- */
+nav.tabs {
+  position: sticky; top: 0; z-index: 10; background: #FCFBF9;
+  display: flex; gap: 2px; margin: 30px 0 0;
+  border-bottom: 1px solid #E6E3DD;
+}
+nav.tabs button {
+  flex: 1; appearance: none; background: none; border: 0;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  font-family: inherit; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1.4px; color: #8C8880; cursor: pointer;
+  padding: 15px 2px 12px; min-height: 46px;
+}
+nav.tabs button[aria-selected="true"] {
+  color: #1A1A18; border-bottom-color: #55684F;
+}
+section[role="tabpanel"] { padding-top: 30px; }
+section[hidden] { display: none; }
+
+/* ---- groceries ---- */
+.count {
+  font-size: 12px; color: #8C8880; display: flex;
+  justify-content: space-between; align-items: baseline;
+  padding-bottom: 14px; border-bottom: 1px solid #E6E3DD;
+}
+.count button {
+  appearance: none; background: none; border: 0; padding: 4px 0;
+  font-family: inherit; font-size: 12px; color: #8C8880;
+  cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px; text-decoration-color: #E6E3DD;
+}
+.count button:hover { color: #1A1A18; }
+.sec {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; margin: 32px 0 4px;
+}
+label.row {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 13px 0; border-bottom: 1px solid #E6E3DD; cursor: pointer;
+}
+label.row input {
+  appearance: none; flex: 0 0 auto; width: 19px; height: 19px;
+  margin: 3px 0 0; border: 1.5px solid #B4B0A8; border-radius: 2px;
+  background: transparent; cursor: pointer; position: relative;
+}
+label.row input:checked { background: #55684F; border-color: #55684F; }
+label.row input:checked::after {
+  content: ""; position: absolute; left: 5.5px; top: 1.5px;
+  width: 4px; height: 9px; border: solid #fff;
+  border-width: 0 1.75px 1.75px 0; transform: rotate(45deg);
+}
+.txt { flex: 1 1 auto; min-width: 0; }
+.item { display: block; }
+.amt { display: block; font-size: 13.5px; color: #8C8880; }
+.note { display: block; font-size: 12.5px; color: #B4B0A8; font-style: italic; }
+.price {
+  flex: 0 0 auto; font-size: 13.5px; color: #8C8880;
+  font-variant-numeric: tabular-nums; padding-top: 1px;
+}
+label.row.done .item, label.row.done .amt, label.row.done .price {
+  color: #B4B0A8; text-decoration: line-through;
+  text-decoration-color: #B4B0A8;
+}
+label.row.done .note { opacity: .55; }
+
+.totals { margin-top: 36px; border-top: 1.5px solid #1A1A18; padding-top: 4px; }
+.totals div {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 9px 0; border-bottom: 1px solid #E6E3DD; font-size: 14px;
+}
+.totals div:last-child { border-bottom: 0; font-weight: 500; color: #1A1A18; }
+.totals span:first-child { color: #8C8880; }
+.totals span:last-child { font-variant-numeric: tabular-nums; }
+.totals div:last-child span { color: #1A1A18; }
+
+/* ---- recipes ---- */
+h2 { font-size: 23px; font-weight: 500; letter-spacing: -0.3px; margin: 0 0 8px; line-height: 1.25; }
+.rmeta {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 1.3px;
+  color: #8C8880; margin: 0 0 30px;
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+}
+h3 {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px;
+  color: #55684F; font-weight: 400; margin: 34px 0 2px;
+}
+ul.ing { list-style: none; padding: 0; margin: 0; }
+ul.ing li { padding: 10px 0; border-bottom: 1px solid #E6E3DD; }
+ol.method { padding-left: 22px; margin: 8px 0 0; }
+ol.method li { padding: 7px 0; }
+ol.method li::marker { color: #B4B0A8; font-size: 13px; }
+.notes {
+  margin: 30px 0 0; padding: 18px 0 0; border-top: 1px solid #E6E3DD;
+  font-size: 14px; color: #8C8880;
+}
+.notes b { color: #1A1A18; font-weight: 500; }
+.empty { color: #8C8880; font-style: italic; }
+
+/* ---- footer / archive ---- */
+.foot {
+  margin-top: 60px; padding-top: 16px; border-top: 1px solid #E6E3DD;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+}
+.foot a { color: #8C8880; text-decoration: none; border-bottom: 1px solid #E6E3DD; }
+.foot a:hover { color: #1A1A18; }
+.week { padding: 20px 0; border-bottom: 1px solid #E6E3DD; }
+.week a { font-size: 19px; color: #1A1A18; text-decoration: none; font-weight: 500; }
+.week a:hover { color: #55684F; }
+.week p { margin: 5px 0 0; color: #8C8880; font-size: 14.5px; }
+
+@media (max-width: 480px) {
+  .wrap { padding: 30px 17px 70px; }
+  h1 { font-size: 26px; }
+  nav.tabs button { font-size: 10px; letter-spacing: 1px; }
+  .price { font-size: 13px; }
+}
+</style>
+</head><body data-week="2026-11-30"><div class="wrap">
+
+<p class="mast">Meal prep</p>
+<h1>Week of November 30</h1>
+<p class="opening">Three completely different protein sources this week — Greek yogurt and powder at breakfast, black-eyed peas at lunch, soy at dinner — which breaks a four-week run of two-pulse weeks and brings fibre back from the high forties to a comfortable 32g a day. Collards are at their Northeast peak now, frost-sweetened and cheap, and the storage carrots, onions and apples are all at their best. Nothing overlaps: rolled oats against cornbread against brown rice, and a Swiss bircher against a Southern salad against a Japanese curry. The meals supply 84g of protein; with the 40g shake and about 19g of Greek yogurt at dinner that is 143g a day against the 140 target. Zero expensive-aisle items and zero new spices, which is what buys the $6.86 margin — the week&#x27;s most expensive lines are two bunches of collards and two blocks of tofu, tied at $4.94, and nothing was cut to make budget.</p>
+<p class="meta"><span>Protein <b>143g/day</b></span><span>Fibre <b>32g/day</b></span><span>Till <b>$48.14</b></span><span>Recurring <b>$35.13</b></span></p>
+<details class="prep"><summary>Prep order</summary><ol>
+<li>Brown rice into the rice cooker first — about 45 minutes of passive time that covers almost everything else.</li>
+<li>Black-eyed peas onto the stove next, with a quartered onion and two crushed garlic cloves. 45 to 55 minutes, no soak, no attention.</li>
+<li>While both run: press the tofu, strip and shred the collards and massage them with oil, mix the salad dressing, and get the two boxes of Jiffy cornbread into the oven for their 20 minutes.</li>
+<li>Build the curry sauce, then fry the six cutlets last so they go into the tubs at their crispest. Toss the salad once the peas have cooled.</li>
+<li>Total active time: about 1h45.</li>
+</ol></details>
+<nav class="tabs" role="tablist">
+<button role="tab" data-tab="groceries" aria-selected="false" aria-controls="panel-groceries">Groceries</button>
+<button role="tab" data-tab="breakfast" aria-selected="false" aria-controls="panel-breakfast">Breakfast</button>
+<button role="tab" data-tab="lunch" aria-selected="false" aria-controls="panel-lunch">Lunch</button>
+<button role="tab" data-tab="dinner" aria-selected="false" aria-controls="panel-dinner">Dinner</button>
+</nav>
+<section role="tabpanel" id="panel-groceries" hidden>
+<div class="count"><span id="count"></span><button id="reset" type="button">Uncheck all</button></div>
+<p class="sec">Produce</p>
+<label class="row"><input type="checkbox" value="produce-collard-greens"><span class="txt"><span class="item">Collard greens</span><span class="amt">2 bunches / 1.5 lb (680g)</span><span class="note">Frost-sweetened and at their Northeast peak. Joint most expensive line of the week.</span></span><span class="price">$4.94</span></label>
+<label class="row"><input type="checkbox" value="produce-gala-apples"><span class="txt"><span class="item">Gala apples</span><span class="amt">3 lb bag (1.35kg)</span><span class="note">Only about 1 lb is needed and there is no smaller sensible package; two apples spare.</span></span><span class="price">$3.24</span></label>
+<label class="row"><input type="checkbox" value="produce-carrots"><span class="txt"><span class="item">Carrots</span><span class="amt">2 lb bag (900g)</span><span class="note">About 1 lb into the curry sauce; storage carrots are at their sweetest now.</span></span><span class="price">$2.20</span></label>
+<label class="row"><input type="checkbox" value="produce-yellow-onions"><span class="txt"><span class="item">Yellow onions</span><span class="amt">2 loose / 1 lb (450g)</span><span class="note">One into the curry sauce, one quartered into the bean pot. Loose beats the 3 lb bag.</span></span><span class="price">$1.76</span></label>
+<label class="row"><input type="checkbox" value="produce-red-onion"><span class="txt"><span class="item">Red onion</span><span class="amt">1 each</span><span class="note">Sliced thin and raw into the salad.</span></span><span class="price">$1.19</span></label>
+<label class="row"><input type="checkbox" value="produce-roma-tomatoes"><span class="txt"><span class="item">Roma tomatoes</span><span class="amt">6 each / 1.3 lb (600g)</span><span class="note">Raw in a cold salad, so fresh romas rather than canned.</span></span><span class="price">$1.74</span></label>
+<label class="row"><input type="checkbox" value="produce-lemons"><span class="txt"><span class="item">Lemons</span><span class="amt">2 each</span><span class="note">One for the salad dressing, one to stop the grated apple browning.</span></span><span class="price">$1.60</span></label>
+<label class="row"><input type="checkbox" value="produce-jalapenos"><span class="txt"><span class="item">Jalapenos</span><span class="amt">2 each</span><span class="note">Seeds in. Tenth straight week as the only fresh heat source.</span></span><span class="price">$0.98</span></label>
+<label class="row"><input type="checkbox" value="produce-garlic"><span class="txt"><span class="item">Garlic</span><span class="amt">1 head</span><span class="note">Covers both mains.</span></span><span class="price">$0.90</span></label>
+<label class="row"><input type="checkbox" value="produce-frozen-sweet-peas"><span class="txt"><span class="item">Frozen sweet peas</span><span class="amt">12 oz steamable bag (340g)</span><span class="note">About 200g into the curry at the end. Cheapest vegetable line in the price file.</span></span><span class="price">$0.98</span></label>
+<p class="sec">Pantry</p>
+<label class="row"><input type="checkbox" value="pantry-rolled-oats-great-value-old-fashioned"><span class="txt"><span class="item">Rolled oats, Great Value old fashioned</span><span class="amt">42 oz tub (1.19kg)</span><span class="note">Check pantry, but the Nov 2 tub is down to roughly 290g against the 300g this week needs — expect to buy it.</span></span><span class="price">$4.18</span></label>
+<label class="row"><input type="checkbox" value="pantry-vegetable-oil-great-value"><span class="txt"><span class="item">Vegetable oil, Great Value</span><span class="amt">48 fl oz (1.42L)</span><span class="note">Check pantry. About 180ml this week; the cutlets are shallow-fried.</span></span><span class="price">$3.74</span></label>
+<label class="row"><input type="checkbox" value="pantry-black-eyed-peas-dried-great-value"><span class="txt"><span class="item">Black-eyed peas, dried, Great Value</span><span class="amt">2 x 1 lb bags (908g)</span><span class="note">95g dry a serving, 570g used, 338g spare. No soak needed.</span></span><span class="price">$3.34</span></label>
+<label class="row"><input type="checkbox" value="pantry-brown-rice-great-value"><span class="txt"><span class="item">Brown rice, Great Value</span><span class="amt">2 lb (908g)</span><span class="note">Standing stand-in for jasmine. Priced as a fresh buy: four consecutive rice weeks make the bag&#x27;s level uncertain.</span></span><span class="price">$2.50</span></label>
+<label class="row"><input type="checkbox" value="pantry-panko-bread-crumbs-great-value-plain"><span class="txt"><span class="item">Panko bread crumbs, Great Value plain</span><span class="amt">8 oz canister (227g)</span><span class="note">About 120g for six cutlets; the rest keeps indefinitely.</span></span><span class="price">$1.92</span></label>
+<label class="row"><input type="checkbox" value="pantry-soy-sauce-great-value-naturally-brewed"><span class="txt"><span class="item">Soy sauce, Great Value naturally brewed</span><span class="amt">15 fl oz (444ml)</span><span class="note">Check pantry — the Oct 5 bottle is roughly 90 percent full. 3 tbsp into the curry sauce.</span></span><span class="price">$1.73</span></label>
+<label class="row"><input type="checkbox" value="pantry-corn-muffin-mix-jiffy"><span class="txt"><span class="item">Corn muffin mix, Jiffy</span><span class="amt">2 x 8.5 oz boxes (482g)</span><span class="note">Two boxes, not one. One box across six servings drops the lunch under the protein floor.</span></span><span class="price">$1.54</span></label>
+<label class="row"><input type="checkbox" value="pantry-all-purpose-flour-great-value"><span class="txt"><span class="item">All-purpose flour, Great Value</span><span class="amt">2 lb bag (908g)</span><span class="note">Check pantry — the Oct 5 bag. About 90g for the breading and the curry roux.</span></span><span class="price">$1.44</span></label>
+<p class="sec">Dairy</p>
+<label class="row"><input type="checkbox" value="dairy-extra-firm-tofu-marketside-organic"><span class="txt"><span class="item">Extra-firm tofu, Marketside organic</span><span class="amt">2 x 16 oz blocks (907g)</span><span class="note">151g a serving. Joint most expensive line of the week.</span></span><span class="price">$4.94</span></label>
+<label class="row"><input type="checkbox" value="dairy-greek-yogurt-plain-great-value"><span class="txt"><span class="item">Greek yogurt, plain, Great Value</span><span class="amt">32 oz tub (907g)</span><span class="note">The oats tub: 720g across six jars. The second tub is under Staples, for the dinner yogurt.</span></span><span class="price">$3.28</span></label>
+<p class="sec">Spices</p>
+<label class="row"><input type="checkbox" value="spices-nothing-to-buy"><span class="txt"><span class="item">Nothing to buy</span><span class="amt">all ten jars owned</span><span class="note">Curry powder, turmeric, cayenne, smoked paprika, red pepper flakes and cinnamon all come from the owned jars. Tenth zero-spice week in thirteen. Glance at the cayenne before leaving — it has been in two of three recipes for eight weeks running and a replacement is about $2.98.</span></span><span class="price">$0.00</span></label>
+<p class="sec">Staples</p>
+<label class="row"><input type="checkbox" value="staples-cranberry-juice"><span class="txt"><span class="item">Cranberry juice</span><span class="amt">64 oz (1.89L)</span></span><span class="price">$3.50</span></label>
+<label class="row"><input type="checkbox" value="staples-greek-yogurt-plain-great-value"><span class="txt"><span class="item">Greek yogurt, plain, Great Value</span><span class="amt">second 32 oz tub (907g)</span><span class="note">Six 180g portions with dinner, 1080g. With the oats tub that is 1800g against 1814g bought.</span></span><span class="price">$3.28</span></label>
+<label class="row"><input type="checkbox" value="staples-bagels"><span class="txt"><span class="item">Bagels</span><span class="amt">6 pack</span><span class="note">These are what let the lunch carry cornbread without a second bread line.</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="staples-pineapple-juice"><span class="txt"><span class="item">Pineapple juice</span><span class="amt">46 oz (1.36L)</span></span><span class="price">$3.00</span></label>
+<label class="row"><input type="checkbox" value="staples-cream-cheese"><span class="txt"><span class="item">Cream cheese</span><span class="amt">8 oz (225g)</span></span><span class="price">$2.50</span></label>
+<label class="row"><input type="checkbox" value="staples-bananas"><span class="txt"><span class="item">Bananas</span><span class="amt">1 bunch</span></span><span class="price">$1.50</span></label>
+<div class="totals">
+<div><span>Recipe ingredients — till</span><span>$48.14</span></div>
+<div><span>Recipe ingredients — recurring</span><span>$35.13</span></div>
+<div><span>Standing staples</span><span>$16.78</span></div>
+<div><span>Combined weekly — till</span><span>$64.92</span></div>
+</div>
+</section>
+<section role="tabpanel" id="panel-breakfast" hidden>
+<h2>Apple and Cinnamon Bircher Oats</h2>
+<p class="rmeta"><span>6 servings</span><span>15 min active</span><span>28g protein</span><span>8g fibre</span><span>Swiss</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Rolled oats, 1 1/2 cups (300g)</li>
+<li>Plain Greek yogurt, 3 cups (720g)</li>
+<li>Protein powder, 3 half-scoops (90g) — from the tub you already own, not on the list</li>
+<li>Milk or water to loosen, about 2 cups (480ml)</li>
+<li>Gala apples, 3 medium / 1 lb (450g)</li>
+<li>Lemon, 1</li>
+<li>Ground cinnamon, 2 tsp</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Whisk the protein powder into the milk or water in a jug first, until there are no lumps. Powder stirred straight into yogurt clumps irreversibly and will not come back.</li>
+<li>Stir the oats, the Greek yogurt and the protein liquid together in a large bowl with the cinnamon, until the mixture is loose enough to fall off a spoon. It thickens overnight, so err slightly wet.</li>
+<li>Divide between six jars and refrigerate.</li>
+<li>Grate one apple coarsely with the skin on and toss it with the juice of half a lemon so it does not brown. Stir it through the first two jars.</li>
+<li>On the remaining days grate half a fresh apple into the jar at serving with a squeeze of lemon. That is the one day-of step, and it takes under a minute.</li>
+</ol>
+<p class="notes">About 28g protein and 8g fibre a serving. Holds 6 days, eaten cold. The apple is the only part that does not keep — grate it fresh from day three onward. No sweetener: storage apples in late November are sweet enough with cinnamon, and leaving the brown sugar out keeps $1.98 off the shop.</p>
+</section>
+<section role="tabpanel" id="panel-lunch" hidden>
+<h2>Black-Eyed Pea and Collard Salad with Cornbread</h2>
+<p class="rmeta"><span>6 servings</span><span>35 min active</span><span>29g protein</span><span>16g fibre</span><span>Southern US</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Black-eyed peas, dried, 1 1/4 lb (570g)</li>
+<li>Collard greens, 2 bunches / 1.5 lb (680g)</li>
+<li>Roma tomatoes, 6 / 1.3 lb (600g)</li>
+<li>Red onion, 1, sliced thin</li>
+<li>Yellow onion, 1, quartered, for the bean pot</li>
+<li>Garlic, 4 cloves</li>
+<li>Jalapeno, 1, seeds in</li>
+<li>Lemon, 1</li>
+<li>Vegetable oil, 1/4 cup (60ml)</li>
+<li>Cayenne 1 tsp, smoked paprika 2 tsp, red pepper flakes 1 tsp — all owned</li>
+<li>Corn muffin mix, Jiffy, 2 boxes, made with water only</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Rinse the black-eyed peas and put them in a pot with the quartered yellow onion, two crushed garlic cloves and plenty of water. They need no soak. Simmer 45 to 55 minutes until tender but not collapsing, then drain and spread them on a tray to cool.</li>
+<li>While they cook, strip the collard leaves off their stems, stack and roll them, and shred them as finely as you can. Massage the shredded leaves with a tablespoon of oil and a good pinch of salt for a minute — that is what makes raw collard pleasant on day six instead of leathery.</li>
+<li>Make the dressing: the juice of one lemon, 3 tbsp oil, two grated garlic cloves, the jalapeno finely chopped with its seeds, 1 tsp cayenne, 2 tsp smoked paprika, 1 tsp red pepper flakes, salt and plenty of black pepper.</li>
+<li>Bake the cornbread: mix both boxes of Jiffy with water only, following the box, and bake it in one pan. Water rather than milk keeps the dish off the dairy line and the texture is no worse.</li>
+<li>Toss the cooled peas, the shredded collards, the diced tomatoes and the sliced red onion through the dressing. Divide between six tubs, cut the cornbread into six and store it in a separate box.</li>
+</ol>
+<p class="notes">About 29g protein and 16g fibre a serving — the peas carry roughly 23g at 95g dry and the two boxes of cornbread add about 6g. Holds 6 days, eaten cold, and massaged shredded collard genuinely improves by day two. Keep the cornbread in its own box or it goes soggy. The heat climbs noticeably across the week.</p>
+</section>
+<section role="tabpanel" id="panel-dinner" hidden>
+<h2>Tofu Katsu Curry with Rice</h2>
+<p class="rmeta"><span>6 servings</span><span>45 min active</span><span>27g protein</span><span>8g fibre</span><span>Japanese</span></p>
+<h3>Ingredients</h3><ul class="ing">
+<li>Extra-firm tofu, 2 blocks / 2 lb (907g)</li>
+<li>Brown rice, 1 1/2 cups dry (300g)</li>
+<li>Panko bread crumbs, about 1 cup (120g)</li>
+<li>All-purpose flour, 3/4 cup (90g)</li>
+<li>Carrots, 1 lb (450g), diced</li>
+<li>Yellow onion, 1 large, diced</li>
+<li>Garlic, 4 cloves</li>
+<li>Jalapeno, 1, seeds in</li>
+<li>Frozen sweet peas, 1 1/2 cups (200g)</li>
+<li>Soy sauce, 3 tbsp (45ml)</li>
+<li>Curry powder 3 tbsp, turmeric 1 tsp, cayenne 1 1/2 tsp — all owned</li>
+<li>Vegetable oil, about 1/2 cup (120ml) for frying plus 2 tbsp for the sauce</li>
+</ul>
+<h3>Method</h3><ol class="method">
+<li>Start the brown rice in the rice cooker — 300g dry with its usual water. It takes about 45 minutes and needs nothing from you.</li>
+<li>Press the tofu: stand both blocks on a plate with something heavy on top for 20 minutes while you make the sauce. Water left in the block is what makes a soggy cutlet.</li>
+<li>For the sauce, heat 2 tbsp oil in a pan and soften the diced onion, carrot, garlic and the chopped jalapeno with its seeds for 8 minutes. Stir in 3 tbsp of the flour and cook it for a minute, then the curry powder, turmeric and cayenne for 30 seconds until it smells toasty. Pour in 3 cups (700ml) water and the soy sauce, whisking, and simmer 15 minutes until it coats a spoon. Add the frozen peas in the last 2 minutes.</li>
+<li>Cut each tofu block into three slabs, giving six cutlets. Dredge each one in seasoned flour, then a thin flour-and-water slurry, then press it hard into the panko on both sides.</li>
+<li>Shallow-fry the cutlets in about 1cm of oil, 3 minutes a side, until deep gold. Drain them on a rack rather than on paper so the undersides stay crisp.</li>
+<li>Portion rice and sauce into six tubs and lay one cutlet on top of the rice rather than in the sauce.</li>
+</ol>
+<p class="notes">About 27g protein and 8g fibre a serving. Holds 6 days. Reheat: microwave the rice and sauce 3 minutes covered with a stir halfway, then either crisp the cutlet 5 minutes in a hot oven or eat it soft — both are fine by day five. Store the cutlet on the rice and never submerged in the sauce, or it turns to paste by day three. The cayenne and the jalapeno both climb over the week; a katsu curry this hot is unorthodox and deliberate.</p>
+</section>
+<div class="foot"><a href="../archive.html">Past weeks</a></div>
+</div><script>
+(function () {
+  var KEY = document.body.dataset.week;
+  var tabs = [].slice.call(document.querySelectorAll('nav.tabs button'));
+  var panels = [].slice.call(document.querySelectorAll('section[role=tabpanel]'));
+
+  var nav = document.querySelector('nav.tabs');
+
+  function show(name, fromClick) {
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-selected', String(t.dataset.tab === name));
+    });
+    panels.forEach(function (p) { p.hidden = p.id !== 'panel-' + name; });
+    if (fromClick) {
+      if (history.replaceState) history.replaceState(null, '', '#' + name);
+      // Park the tab bar at the top rather than jumping to the page top —
+      // otherwise every tab switch means scrolling past the header again.
+      nav.scrollIntoView({ block: 'start' });
+    }
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { show(t.dataset.tab, true); });
+  });
+
+  // --- grocery ticks, remembered per week ---
+  var boxes = [].slice.call(document.querySelectorAll('label.row input'));
+  var counter = document.getElementById('count');
+
+  function store(k, v) {
+    try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); }
+    catch (e) { /* private mode: ticks work, they just don't persist */ }
+  }
+  function load(k) {
+    try { return localStorage.getItem(k); } catch (e) { return null; }
+  }
+  function tally() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    if (counter) {
+      counter.textContent = n + ' of ' + boxes.length +
+        (n === boxes.length && boxes.length ? ' — done' : ' picked up');
+    }
+  }
+  boxes.forEach(function (b) {
+    var k = 'bory:' + KEY + ':' + b.value;
+    if (load(k) === '1') { b.checked = true; }
+    b.closest('label').classList.toggle('done', b.checked);
+    b.addEventListener('change', function () {
+      b.closest('label').classList.toggle('done', b.checked);
+      store(k, b.checked ? '1' : null);
+      tally();
+    });
+  });
+  tally();
+
+  var reset = document.getElementById('reset');
+  if (reset) reset.addEventListener('click', function () {
+    boxes.forEach(function (b) {
+      b.checked = false;
+      b.closest('label').classList.remove('done');
+      store('bory:' + KEY + ':' + b.value, null);
+    });
+    tally();
+  });
+
+  var initial = (location.hash || '').replace('#', '');
+  show(tabs.some(function (t) { return t.dataset.tab === initial; })
+       ? initial : 'groceries', false);
+})();
+</script></body></html>
